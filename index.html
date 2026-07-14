@@ -462,23 +462,23 @@ const HAIR_COLORS = ['#1e293b', '#8B4513', '#FBBF24', '#475569', '#0F172A', '#D9
 
 // Weapon balances applied: Laser/Lightning damage heavily reduced. Shockwave buffed. Sniper/Rocket pinpoint accuracy. Poison tweaked. Sawblade huge.
 const WEAPONS = {
-    PISTOL: { name: 'PISTOL', cooldown: 15, damage: 25, speed: 20, spread: 0.05, count: 1, color: '#FEF08A' },
-    SMG: { name: 'SMG', cooldown: 6, damage: 12, speed: 22, spread: 0.15, count: 1, color: '#FCD34D' },
-    XM8: { name: 'XM8', cooldown: 8, damage: 18, speed: 24, spread: 0.08, count: 1, color: '#9ACD32' },
-    SHOTGUN: { name: 'SHOTGUN', cooldown: 45, damage: 25, speed: 18, spread: 0.35, count: 6, color: '#F87171' },
-    'TACTICAL SHOTGUN': { name: 'TACTICAL SHOTGUN', cooldown: 30, damage: 20, speed: 20, spread: 0.25, count: 8, color: '#FA8072' },
-    MINIGUN: { name: 'MINIGUN', cooldown: 3, damage: 9, speed: 26, spread: 0.25, count: 1, color: '#94A3B8', knockbackSelf: 0.8 },
-    SNIPER: { name: 'SNIPER', cooldown: 60, damage: 300, speed: 60, spread: 0.00, count: 1, color: '#60A5FA', knockbackSelf: 5, piercing: true, maxPierces: 3 },
-    RAILGUN: { name: 'RAILGUN', cooldown: 50, damage: 120, speed: 60, spread: 0, count: 1, color: '#d946ef', piercing: true, knockbackSelf: 4, trailTime: 15, maxPierces: 100 },
-    SAWBLADE: { name: 'SAWBLADE', cooldown: 35, damage: 50, speed: 16, spread: 0.1, count: 1, color: '#cbd5e1', bounce: true, maxBounces: 5, piercing: true, isSawblade: true },
-    ROCKET: { name: 'ROCKET', cooldown: 80, damage: 100, speed: 25, spread: 0.00, count: 1, color: '#FF4500', explosive: true, radius: 100 },
-    LASER: { name: 'LASER', cooldown: 1, damage: 1.5, speed: 0, spread: 0, count: 1, color: '#00FFFF', isContinuous: true },
-    LIGHTNING: { name: 'LIGHTNING', cooldown: 5, damage: 12, speed: 0, spread: 0, count: 1, color: '#a855f7', isLightning: true, range: 600 },
-    POISON: { name: 'POISON', cooldown: 35, damage: 20, speed: 16, spread: 0.05, count: 1, color: '#22c55e', hasGravity: true, isPoison: true, splashRadius: 90, dotDuration: 180 },
-    FLAMETHROWER: { name: 'FLAMETHROWER', cooldown: 2, damage: 4, speed: 12, spread: 0.3, count: 2, color: '#F97316', fireEffect: true, life: 30 },
-    MISSILE: { name: 'MISSILE', cooldown: 120, damage: 250, speed: 10, spread: 0, count: 1, color: '#222222', explosive: true, radius: 180, homing: true },
-    GRENADE: { name: 'GRENADE', cooldown: 70, damage: 80, speed: 10, spread: 0.05, count: 1, color: '#2E8B57', explosive: true, radius: 110, bounce: true, maxBounces: 2 },
-    SHOCKWAVE: { name: 'SHOCKWAVE', cooldown: 50, damage: 50, speed: 22, spread: 0, count: 1, color: '#8A2BE2', knockback: 65, isSoundWave: true }
+    PISTOL: { name: 'PISTOL', cooldown: 0.25, damage: 25, speed: 20, spread: 0.05, count: 1, color: '#FEF08A' },
+    SMG: { name: 'SMG', cooldown: 0.1, damage: 12, speed: 22, spread: 0.15, count: 1, color: '#FCD34D' },
+    XM8: { name: 'XM8', cooldown: 0.1333, damage: 18, speed: 24, spread: 0.08, count: 1, color: '#9ACD32' },
+    SHOTGUN: { name: 'SHOTGUN', cooldown: 0.75, damage: 25, speed: 18, spread: 0.35, count: 6, color: '#F87171' },
+    'TACTICAL SHOTGUN': { name: 'TACTICAL SHOTGUN', cooldown: 0.5, damage: 20, speed: 20, spread: 0.25, count: 8, color: '#FA8072' },
+    MINIGUN: { name: 'MINIGUN', cooldown: 0.05, damage: 9, speed: 26, spread: 0.25, count: 1, color: '#94A3B8', knockbackSelf: 0.8 },
+    SNIPER: { name: 'SNIPER', cooldown: 1.0, damage: 300, speed: 60, spread: 0.00, count: 1, color: '#60A5FA', knockbackSelf: 5, piercing: true, maxPierces: 3 },
+    RAILGUN: { name: 'RAILGUN', cooldown: 0.8333, damage: 120, speed: 60, spread: 0, count: 1, color: '#d946ef', piercing: true, knockbackSelf: 4, trailTime: 0.25, maxPierces: 100 },
+    SAWBLADE: { name: 'SAWBLADE', cooldown: 0.5833, damage: 50, speed: 16, spread: 0.1, count: 1, color: '#cbd5e1', bounce: true, maxBounces: 5, piercing: true, isSawblade: true },
+    ROCKET: { name: 'ROCKET', cooldown: 1.3333, damage: 100, speed: 25, spread: 0.00, count: 1, color: '#FF4500', explosive: true, radius: 100 },
+    LASER: { name: 'LASER', cooldown: 0.0167, damage: 1.5, speed: 0, spread: 0, count: 1, color: '#00FFFF', isContinuous: true },
+    LIGHTNING: { name: 'LIGHTNING', cooldown: 0.0833, damage: 12, speed: 0, spread: 0, count: 1, color: '#a855f7', isLightning: true, range: 600 },
+    POISON: { name: 'POISON', cooldown: 0.5833, damage: 20, speed: 16, spread: 0.05, count: 1, color: '#22c55e', hasGravity: true, isPoison: true, splashRadius: 90, dotDuration: 3.0 },
+    FLAMETHROWER: { name: 'FLAMETHROWER', cooldown: 0.0333, damage: 4, speed: 12, spread: 0.3, count: 2, color: '#F97316', fireEffect: true, life: 0.5 },
+    MISSILE: { name: 'MISSILE', cooldown: 2.0, damage: 250, speed: 10, spread: 0, count: 1, color: '#222222', explosive: true, radius: 180, homing: true },
+    GRENADE: { name: 'GRENADE', cooldown: 1.1667, damage: 80, speed: 10, spread: 0.05, count: 1, color: '#2E8B57', explosive: true, radius: 110, bounce: true, maxBounces: 2 },
+    SHOCKWAVE: { name: 'SHOCKWAVE', cooldown: 0.8333, damage: 50, speed: 22, spread: 0, count: 1, color: '#8A2BE2', knockback: 65, isSoundWave: true }
 };
 
 const POWER_UPS = [
@@ -725,21 +725,21 @@ class Particle {
         this.size = size; this.gravity = gravity;
         this.isFire = isFire; this.glow = glow; this.isSmoke = isSmoke;
     }
-    update() {
-        this.x += this.vx; this.y += this.vy; this.vy += this.gravity;
+    update(dt) {
+        this.x += this.vx * dt * 60; this.y += this.vy * dt * 60; this.vy += this.gravity * dt * 60;
         if(this.isFire) {
-            this.size *= 0.95;
+            this.size *= Math.pow(0.95, dt * 60);
             if(this.life < this.maxLife * 0.3) this.color = '#555';
             else if(this.life < this.maxLife * 0.6) this.color = '#EF4444';
             else if(this.life < this.maxLife * 0.8) this.color = '#F97316';
         } else if (this.isSmoke) {
-            this.size *= 1.02;
-            this.vx *= 0.95; this.vy *= 0.95;
+            this.size *= Math.pow(1.02, dt * 60);
+            this.vx *= Math.pow(0.95, dt * 60); this.vy *= Math.pow(0.95, dt * 60);
         } else if (this.glow) {
-            this.vx += (Math.random() - 0.5) * 0.5; this.vy += (Math.random() - 0.5) * 0.5;
-            this.size = Math.max(0.1, this.size + Math.sin(this.life * 0.2) * 0.2);
+            this.vx += (Math.random() - 0.5) * 0.5 * dt * 60; this.vy += (Math.random() - 0.5) * 0.5 * dt * 60;
+            this.size = Math.max(0.1, this.size + Math.sin(this.life * 12) * 0.2 * dt * 60);
         }
-        this.life--;
+        this.life -= dt;
     }
     draw(ctx) {
         if(this.size <= 0) return;
@@ -753,10 +753,10 @@ class Particle {
 }
 
 class Shockwave {
-    constructor(x, y, color) { this.x = x; this.y = y; this.radius = 10; this.maxRadius = 150; this.color = color; this.life = 25; }
-    update() { this.radius += 10; this.life--; }
+    constructor(x, y, color) { this.x = x; this.y = y; this.radius = 10; this.maxRadius = 150; this.color = color; this.life = 25 / 60; this.maxLife = 25 / 60; }
+    update(dt) { this.radius += 10 * dt * 60; this.life -= dt; }
     draw(ctx) {
-        ctx.globalAlpha = this.life / 25 * 0.8;
+        ctx.globalAlpha = Math.max(0, this.life / this.maxLife) * 0.8;
         ctx.strokeStyle = this.color; ctx.lineWidth = 6;
         ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI); ctx.stroke();
         ctx.globalAlpha = 1;
@@ -805,7 +805,7 @@ function rocketExplosion(x, y, rad = 120) {
 
 // ==================== BULLET ====================
 class Bullet {
-    constructor(x, y, angle, speed, isPlayer, damage = 25, color = '#3B82F6', explosive = false, radius = 0, bounce = false, knockback = 0, homing = false, targetBot = null, fireEffect = false, maxLife = 150, piercing = false, maxBounces = 3, isSawblade = false, maxPierces = Infinity, hasGravity = false, isSoundWave = false, isPoison = false, splashRadius = 0, dotDuration = 0) {
+    constructor(x, y, angle, speed, isPlayer, damage = 25, color = '#3B82F6', explosive = false, radius = 0, bounce = false, knockback = 0, homing = false, targetBot = null, fireEffect = false, maxLife = 2.5, piercing = false, maxBounces = 3, isSawblade = false, maxPierces = Infinity, hasGravity = false, isSoundWave = false, isPoison = false, splashRadius = 0, dotDuration = 0) {
         this.x = x; this.y = y;
         this.vx = Math.cos(angle) * speed; this.vy = Math.sin(angle) * speed;
         this.isPlayer = isPlayer; this.damage = damage; this.color = color;
@@ -821,34 +821,35 @@ class Bullet {
         this.hitBots = [];
         this.spinAngle = 0;
     }
-    update() {
+    update(dt) {
         if (this.homing && this.targetBot && this.targetBot.health > 0) {
             let dx = this.targetBot.x + this.targetBot.width/2 - this.x; let dy = this.targetBot.y + this.targetBot.height/2 - this.y;
             let targetAngle = Math.atan2(dy, dx); let angleDiff = targetAngle - this.angle;
             while (angleDiff > Math.PI) angleDiff -= 2*Math.PI; while (angleDiff < -Math.PI) angleDiff += 2*Math.PI;
-            if (angleDiff > this.turnRate) angleDiff = this.turnRate; if (angleDiff < -this.turnRate) angleDiff = -this.turnRate;
+            let currentTurnRate = this.turnRate * dt * 60;
+            if (angleDiff > currentTurnRate) angleDiff = currentTurnRate; if (angleDiff < -currentTurnRate) angleDiff = -currentTurnRate;
             this.angle += angleDiff;
             let speed = Math.hypot(this.vx, this.vy);
             this.vx = Math.cos(this.angle) * speed; this.vy = Math.sin(this.angle) * speed;
         }
 
-        if (this.hasGravity) this.vy += GRAVITY * 0.6;
+        if (this.hasGravity) this.vy += GRAVITY * 0.6 * dt * 60;
 
-        this.x += this.vx; this.y += this.vy; this.life--;
+        this.x += this.vx * dt * 60; this.y += this.vy * dt * 60; this.life -= dt;
         if(this.isSawblade) {
-            this.spinAngle += 0.8;
-            if(Math.random()>0.5) particles.push(new Particle(this.x, this.y, '#fbbf24', 2, 10, 2, 0.1));
+            this.spinAngle += 0.8 * dt * 60;
+            if(Math.random()>0.5) particles.push(new Particle(this.x, this.y, '#fbbf24', 2, 10 / 60, 2, 0.1));
         }
 
         if (this.fireEffect) {
-            particles.push(new Particle(this.x + (Math.random()*15-7), this.y + (Math.random()*15-7), '#FACC15', 1, 20, Math.random()*8+4, -0.05, true));
-            this.width += 0.8; this.height += 0.8;
+            particles.push(new Particle(this.x + (Math.random()*15-7), this.y + (Math.random()*15-7), '#FACC15', 1, 20 / 60, Math.random()*8+4, -0.05, true));
+            this.width += 0.8 * dt * 60; this.height += 0.8 * dt * 60;
         } else if (this.color === '#d946ef') {
-            particles.push(new Particle(this.x, this.y, '#d946ef', 0, 5, 2, 0, false, true));
+            particles.push(new Particle(this.x, this.y, '#d946ef', 0, 5 / 60, 2, 0, false, true));
         } else if (this.isPoison) {
-            particles.push(new Particle(this.x, this.y, '#22c55e', 0.5, 15, 3, 0.05)); // poison trail
+            particles.push(new Particle(this.x, this.y, '#22c55e', 0.5, 15 / 60, 3, 0.05)); // poison trail
         } else if (Math.random() > 0.6 && !this.isSawblade && !this.isSoundWave) {
-            particles.push(new Particle(this.x, this.y, this.color, 0.5, 10, 2));
+            particles.push(new Particle(this.x, this.y, this.color, 0.5, 10 / 60, 2));
         }
 
         if (this.bounce || this.isPoison) {
@@ -860,21 +861,21 @@ class Bullet {
                         break;
                     }
 
-                    let hitFromTop = this.vy > 0 && this.y - this.vy < p.y;
-                    let hitFromBottom = this.vy < 0 && this.y - this.vy > p.y + p.height;
+                    let hitFromTop = (this.vy * dt * 60) > 0 && this.y - (this.vy * dt * 60) < p.y;
+                    let hitFromBottom = (this.vy * dt * 60) < 0 && this.y - (this.vy * dt * 60) > p.y + p.height;
 
                     if(hitFromTop || hitFromBottom) {
                         this.vy = -this.vy * 0.9;
-                        this.y += this.vy * 1.5;
+                        this.y += this.vy * 1.5 * dt * 60;
                     } else {
                         this.vx = -this.vx * 0.9;
-                        this.x += this.vx * 1.5;
+                        this.x += this.vx * 1.5 * dt * 60;
                     }
 
                     if(!this.isSawblade) this.vx *= 0.8;
                     this.bounceCount++;
                     if (this.bounceCount > this.maxBounces) this.life = 0;
-                    for(let i=0; i<5; i++) particles.push(new Particle(this.x, this.y, '#fbbf24', 4, 15, 2, 0.2));
+                    for(let i=0; i<5; i++) particles.push(new Particle(this.x, this.y, '#fbbf24', 4, 15 / 60, 2, 0.2));
                     break;
                 }
             }
@@ -942,14 +943,14 @@ class BaseDrop {
         this.x = x; this.y = y; this.vy = 0; this.width = 30; this.height = 30;
         this.bobOffset = Math.random() * Math.PI * 2; this.glowPulse = 0;
     }
-    update() {
-        this.vy += GRAVITY; if(this.vy > MAX_FALL_SPEED) this.vy = MAX_FALL_SPEED; this.y += this.vy;
+    update(dt) {
+        this.vy += GRAVITY * dt * 60; if(this.vy > MAX_FALL_SPEED) this.vy = MAX_FALL_SPEED; this.y += this.vy * dt * 60;
         for(let p of mapPlatforms) {
             if(checkCollision(this, p)) {
                 if(this.vy > 0) { this.y = p.y - this.height; this.vy = 0; }
             }
         }
-        this.glowPulse = (this.glowPulse + 0.1) % (Math.PI*2);
+        this.glowPulse = (this.glowPulse + 0.1 * dt * 60) % (Math.PI*2);
     }
 }
 
@@ -1010,12 +1011,12 @@ class Entity {
         this.lastShootTime = 0;
         this.poisonDots = 0;
     }
-    applyPhysics() {
-        this.vy += GRAVITY; if(this.vy > MAX_FALL_SPEED) this.vy = MAX_FALL_SPEED;
+    applyPhysics(dt) {
+        this.vy += GRAVITY * dt * 60; if(this.vy > MAX_FALL_SPEED) this.vy = MAX_FALL_SPEED;
 
         // X-axis Physics & Wall Collision
-        this.vx *= FRICTION;
-        this.x += this.vx;
+        this.vx *= Math.pow(FRICTION, dt * 60);
+        this.x += this.vx * dt * 60;
         for(let p of mapPlatforms) {
             if(checkCollision(this, p)) {
                 if(this.vx > 0) this.x = p.x - this.width;
@@ -1025,7 +1026,7 @@ class Entity {
         }
 
         // Y-axis Physics & Floor/Ceiling Collision
-        this.y += this.vy;
+        this.y += this.vy * dt * 60;
         this.onGround = false;
         for(let p of mapPlatforms) {
             if(checkCollision(this, p)) {
@@ -1183,25 +1184,57 @@ class Player extends Entity {
         this._lastInvHTML = '';
         this._lastBuffUI = '';
     }
-    update(timestamp) {
+    update(dt, timestamp) {
         if(this.health <= 0) return;
-        for(let key in this.activeBuffs) { if(this.activeBuffs[key] > 0) this.activeBuffs[key]--; }
+        for(let key in this.activeBuffs) { if(this.activeBuffs[key] > 0) this.activeBuffs[key] = Math.max(0, this.activeBuffs[key] - dt); }
+
+        const JOYSTICK_DEAD_ZONE = 8;
+        const JOYSTICK_MAX_RADIUS = 50;
+        let joystickX = 0;
+        let joystickY = 0;
+
+        if (joysticks.left.active) {
+            let dx = joysticks.left.dx;
+            let dy = joysticks.left.dy;
+            let dist = Math.hypot(dx, dy);
+            if (dist > JOYSTICK_DEAD_ZONE) {
+                let nx = dx / dist;
+                let ny = dy / dist;
+                let magnitude = (dist - JOYSTICK_DEAD_ZONE) / (JOYSTICK_MAX_RADIUS - JOYSTICK_DEAD_ZONE);
+                magnitude = Math.min(1.0, Math.max(0.0, magnitude));
+                joystickX = nx * magnitude;
+                joystickY = ny * magnitude;
+            }
+        }
 
         let speedMult = this.activeBuffs.BOOST > 0 ? 1.6 : 1;
-        let moveLeft = keys.a || (joysticks.left.active && joysticks.left.dx < -15);
-        let moveRight = keys.d || (joysticks.left.active && joysticks.left.dx > 15);
-        let useJetpack = keys.w || (joysticks.left.active && joysticks.left.dy < -15);
+        let moveLeft = keys.a;
+        let moveRight = keys.d;
+
+        let inputX = 0;
+        if (moveLeft) inputX -= 1;
+        if (moveRight) inputX += 1;
+        if (joysticks.left.active) {
+            inputX = joystickX;
+        }
+
+        let useJetpack = keys.w || (joysticks.left.active && joystickY < -0.3);
         let isShooting = mouse.down || keys[' '] || mobileFirePressed || (joysticks.right.active && joysticks.right.distance > 10);
 
-        if(moveLeft) this.vx -= 1.5 * speedMult;
-        if(moveRight) this.vx += 1.5 * speedMult;
+        this.vx += inputX * 1.5 * speedMult * dt * 60;
 
         this.fuel = this.maxFuel;
 
         if(useJetpack) {
-            this.vy += JETPACK_FORCE * (this.activeBuffs.BOOST > 0 ? 1.2 : 1);
+            let jetpackStrength = 1.0;
+            if (joysticks.left.active && joystickY < -0.3) {
+                jetpackStrength = -joystickY;
+            }
+            this.vy += JETPACK_FORCE * jetpackStrength * (this.activeBuffs.BOOST > 0 ? 1.2 : 1) * dt * 60;
             let pColor = this.activeBuffs.BOOST > 0 ? '#60A5FA' : '#FCD34D';
-            for (let i=0; i<3; i++) particles.push(new Particle(this.x + this.width/2 + (Math.random()*16-8), this.y + this.height, pColor, 3, 20, Math.random()*4+2, -0.05, true));
+            if (Math.random() < 0.3 * jetpackStrength) {
+                for (let i=0; i<3; i++) particles.push(new Particle(this.x + this.width/2 + (Math.random()*16-8), this.y + this.height, pColor, 3, 20 / 60, Math.random()*4+2, -0.05, true));
+            }
         }
 
         let nearestBot = null; let shortestDist = Infinity;
@@ -1221,7 +1254,7 @@ class Player extends Entity {
         let fireRateDivisor = this.activeBuffs.FIRE_RATE > 0 ? 2.5 : 1;
         let damageMult = this.activeBuffs.DAMAGE > 0 ? 2 : 1;
 
-        if(this.shootCooldown > 0) this.shootCooldown--;
+        if(this.shootCooldown > 0) this.shootCooldown = Math.max(0, this.shootCooldown - dt);
         if(isShooting && this.shootCooldown <= 0) {
             const w = this.weapon;
             const gunTipX = (this.x + this.width/2) + Math.cos(this.armAngle) * 35;
@@ -1232,39 +1265,52 @@ class Player extends Entity {
             }
 
             if (w.name === 'MINIGUN') {
-                 particles.push(new Particle(gunTipX, gunTipY, '#fbbf24', 4, 10, 2, 0.2));
+                 particles.push(new Particle(gunTipX, gunTipY, '#fbbf24', 4, 10 / 60, 2, 0.2));
             }
 
             if (w.isContinuous) {
                 let lx = gunTipX; let ly = gunTipY;
                 let maxDist = 1200; let step = 15; let hitBot = null;
+                const cosArm = Math.cos(this.armAngle) * step;
+                const sinArm = Math.sin(this.armAngle) * step;
                 for(let d=0; d<maxDist; d+=step) {
-                    lx += Math.cos(this.armAngle) * step;
-                    ly += Math.sin(this.armAngle) * step;
-                    let hitWall = mapPlatforms.some(p => lx > p.x && lx < p.x + p.width && ly > p.y && ly < p.y + p.height);
+                    lx += cosArm;
+                    ly += sinArm;
+                    let hitWall = false;
+                    for (let p of mapPlatforms) {
+                        if (lx > p.x && lx < p.x + p.width && ly > p.y && ly < p.y + p.height) {
+                            hitWall = true;
+                            break;
+                        }
+                    }
                     if(hitWall) break;
-                    hitBot = bots.find(bot => lx > bot.x && lx < bot.x + bot.width && ly > bot.y && ly < bot.y + bot.height);
+                    for (let bot of bots) {
+                        if (lx > bot.x && lx < bot.x + bot.width && ly > bot.y && ly < bot.y + bot.height) {
+                            hitBot = bot;
+                            break;
+                        }
+                    }
                     if(hitBot) break;
                 }
-                specialEffects.push({type: 'laser', x1: gunTipX, y1: gunTipY, x2: lx, y2: ly, color: w.color, life: 2});
+                specialEffects.push({type: 'laser', x1: gunTipX, y1: gunTipY, x2: lx, y2: ly, color: w.color, life: 0.0333});
                 if(hitBot) {
                     hitBot.health -= w.damage * damageMult;
                     hitBot.hitFlash = 2;
-                    particles.push(new Particle(lx, ly, w.color, 4, 10, 3));
+                    particles.push(new Particle(lx, ly, w.color, 4, 10 / 60, 3));
                 } else {
-                    particles.push(new Particle(lx, ly, w.color, 2, 5, 2));
+                    particles.push(new Particle(lx, ly, w.color, 2, 5 / 60, 2));
                 }
                 this.shootCooldown = w.cooldown;
                 if(timestamp - this.lastShootTime > 150) { Sound.playShoot('LASER'); this.lastShootTime = timestamp; }
             } else if (w.isLightning) {
                 if (nearestBot && shortestDist <= w.range) {
-                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: nearestBot.x + nearestBot.width/2, y2: nearestBot.y + nearestBot.height/2, color: w.color, life: 4});
+                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: nearestBot.x + nearestBot.width/2, y2: nearestBot.y + nearestBot.height/2, color: w.color, life: 0.0667});
                     nearestBot.health -= w.damage * damageMult;
                     nearestBot.hitFlash = 4;
-                    for(let k=0; k<3; k++) particles.push(new Particle(nearestBot.x + nearestBot.width/2, nearestBot.y + nearestBot.height/2, w.color, 5, 15, 3, 0.1, false, true));
+                    for(let k=0; k<3; k++) particles.push(new Particle(nearestBot.x + nearestBot.width/2, nearestBot.y + nearestBot.height/2, w.color, 5, 15 / 60, 3, 0.1, false, true));
                     if(timestamp - this.lastShootTime > 200) { Sound.playShoot('LASER'); this.lastShootTime = timestamp; }
                 } else {
-                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: gunTipX + Math.cos(this.armAngle)*200, y2: gunTipY + Math.sin(this.armAngle)*200, color: w.color, life: 4});
+                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: gunTipX + Math.cos(this.armAngle)*200, y2: gunTipY + Math.sin(this.armAngle)*200, color: w.color, life: 0.0667});
                 }
                 this.shootCooldown = w.cooldown / fireRateDivisor;
             } else {
@@ -1274,7 +1320,7 @@ class Player extends Entity {
                     bullets.push(new Bullet(
                         gunTipX, gunTipY, spreadAngle, w.speed, true, w.damage * damageMult,
                         w.color, w.explosive, w.radius, w.bounce, w.knockback, w.homing, target,
-                        w.fireEffect, w.life || 150, w.piercing, w.maxBounces || 3, w.isSawblade, w.maxPierces || 100, w.hasGravity, w.isSoundWave, w.isPoison, w.splashRadius, w.dotDuration
+                        w.fireEffect, w.life || 2.5, w.piercing, w.maxBounces || 3, w.isSawblade, w.maxPierces || 100, w.hasGravity, w.isSoundWave, w.isPoison, w.splashRadius, w.dotDuration
                     ));
                 }
                 this.shootCooldown = w.cooldown / fireRateDivisor;
@@ -1287,7 +1333,7 @@ class Player extends Entity {
             if(w.name === 'MINIGUN' || w.name === 'SNIPER' || w.name === 'RAILGUN') addShake(w.name === 'MINIGUN' ? 3 : 10);
         }
 
-        this.applyPhysics();
+        this.applyPhysics(dt);
 
         if (this._lastHealth !== this.health) {
             document.getElementById('healthBar').style.width = `${Math.max(0, (this.health/this.maxHealth)*100)}%`;
@@ -1343,14 +1389,15 @@ class Bot extends Entity {
         this.maxHealth = 100 * mult.botHealth; this.health = this.maxHealth;
         this.weapon.damage *= mult.botDamage; this.dodgeTimer = 0;
     }
-    update(timestamp) {
+    update(dt, timestamp) {
         if(this.health <= 0) return;
 
         if (this.poisonDots > 0) {
-            this.health -= 0.5;
-            this.poisonDots--;
-            if (this.poisonDots % 5 === 0) {
-                particles.push(new Particle(this.x + Math.random()*this.width, this.y + Math.random()*this.height, '#22c55e', 1, 15, 2, 0.05));
+            this.health -= 30 * dt;
+            let oldDots = this.poisonDots;
+            this.poisonDots = Math.max(0, this.poisonDots - dt);
+            if (Math.floor(oldDots / 0.083) !== Math.floor(this.poisonDots / 0.083)) {
+                particles.push(new Particle(this.x + Math.random()*this.width, this.y + Math.random()*this.height, '#22c55e', 1, 15 / 60, 2, 0.05));
             }
         }
 
@@ -1358,14 +1405,14 @@ class Bot extends Entity {
         const distance = Math.hypot(distToPlayerX, distToPlayerY);
 
         this.armAngle = Math.atan2(distToPlayerY, distToPlayerX);
-        this.decisionTimer--;
+        this.decisionTimer -= dt;
         if(this.decisionTimer <= 0) {
-            this.decisionTimer = 30 + Math.random() * 40;
+            this.decisionTimer = 0.5 + Math.random() * 0.67;
             this.targetX = player.x + (Math.random() * 400 - 200); this.targetY = player.y;
         }
 
-        if(this.targetX < this.x - 20) this.vx -= 1;
-        if(this.targetX > this.x + 20) this.vx += 1;
+        if(this.targetX < this.x - 20) this.vx -= 1 * dt * 60;
+        if(this.targetX > this.x + 20) this.vx += 1 * dt * 60;
 
         let needsToFly = (player.y < this.y - 30);
         let groundAhead = false;
@@ -1378,14 +1425,14 @@ class Bot extends Entity {
         this.fuel = this.maxFuel;
 
         if(needsToFly) {
-            this.vy += JETPACK_FORCE * 1.2;
-            for (let i=0; i<2; i++) particles.push(new Particle(this.x + this.width/2 + (Math.random()*10-5), this.y + this.height, '#F59E0B', 2, 15, 3, -0.05, true));
+            this.vy += JETPACK_FORCE * 1.2 * dt * 60;
+            for (let i=0; i<2; i++) particles.push(new Particle(this.x + this.width/2 + (Math.random()*10-5), this.y + this.height, '#F59E0B', 2, 15 / 60, 3, -0.05, true));
         }
 
-        if (distance < 400 && Math.abs(this.armAngle) < 0.4) this.dodgeTimer = 15;
-        if (this.dodgeTimer > 0) { this.dodgeTimer--; this.vx += (Math.random() - 0.5) * 6; }
+        if (distance < 400 && Math.abs(this.armAngle) < 0.4) this.dodgeTimer = 0.25;
+        if (this.dodgeTimer > 0) { this.dodgeTimer = Math.max(0, this.dodgeTimer - dt); this.vx += (Math.random() - 0.5) * 6 * dt * 60; }
 
-        if(this.shootCooldown > 0) this.shootCooldown--;
+        if(this.shootCooldown > 0) this.shootCooldown = Math.max(0, this.shootCooldown - dt);
         if(distance < 700 && this.shootCooldown <= 0 && Math.random() < 0.08) {
             const w = this.weapon;
             const gunTipX = (this.x + this.width/2) + Math.cos(this.armAngle) * 30; const gunTipY = (this.y + this.height/2) + Math.sin(this.armAngle) * 30;
@@ -1393,38 +1440,46 @@ class Bot extends Entity {
             if (w.isContinuous) {
                 let lx = gunTipX; let ly = gunTipY;
                 let maxDist = 1200; let step = 15; let hitPlayer = false;
+                const cosArm = Math.cos(this.armAngle) * step;
+                const sinArm = Math.sin(this.armAngle) * step;
                 for(let d=0; d<maxDist; d+=step) {
-                    lx += Math.cos(this.armAngle) * step;
-                    ly += Math.sin(this.armAngle) * step;
-                    let hitWall = mapPlatforms.some(p => lx > p.x && lx < p.x + p.width && ly > p.y && ly < p.y + p.height);
+                    lx += cosArm;
+                    ly += sinArm;
+                    let hitWall = false;
+                    for (let p of mapPlatforms) {
+                        if (lx > p.x && lx < p.x + p.width && ly > p.y && ly < p.y + p.height) {
+                            hitWall = true;
+                            break;
+                        }
+                    }
                     if(hitWall) break;
                     if(lx > player.x && lx < player.x + player.width && ly > player.y && ly < player.y + player.height) { hitPlayer = true; break; }
                 }
-                specialEffects.push({type: 'laser', x1: gunTipX, y1: gunTipY, x2: lx, y2: ly, color: w.color, life: 2});
+                specialEffects.push({type: 'laser', x1: gunTipX, y1: gunTipY, x2: lx, y2: ly, color: w.color, life: 0.0333});
                 if(hitPlayer) {
                     player.health -= w.damage;
                     player.hitFlash = 2;
-                    particles.push(new Particle(lx, ly, w.color, 4, 10, 3));
+                    particles.push(new Particle(lx, ly, w.color, 4, 10 / 60, 3));
                 }
                 this.shootCooldown = w.cooldown;
             } else if (w.isLightning) {
                 if (distance <= w.range) {
-                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: player.x + player.width/2, y2: player.y + player.height/2, color: w.color, life: 4});
+                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: player.x + player.width/2, y2: player.y + player.height/2, color: w.color, life: 0.0667});
                     player.health -= w.damage; player.hitFlash = 4;
-                    for(let k=0; k<3; k++) particles.push(new Particle(player.x + player.width/2, player.y + player.height/2, w.color, 5, 15, 3, 0.1, false, true));
+                    for(let k=0; k<3; k++) particles.push(new Particle(player.x + player.width/2, player.y + player.height/2, w.color, 5, 15 / 60, 3, 0.1, false, true));
                 } else {
-                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: gunTipX + Math.cos(this.armAngle)*200, y2: gunTipY + Math.sin(this.armAngle)*200, color: w.color, life: 4});
+                    specialEffects.push({type: 'lightning', x1: gunTipX, y1: gunTipY, x2: gunTipX + Math.cos(this.armAngle)*200, y2: gunTipY + Math.sin(this.armAngle)*200, color: w.color, life: 0.0667});
                 }
                 this.shootCooldown = w.cooldown * 1.5;
             } else {
                 for(let i=0; i<w.count; i++) {
                     const spreadAngle = this.armAngle + (Math.random() - 0.5) * w.spread * 1.5;
-                    bullets.push(new Bullet(gunTipX, gunTipY, spreadAngle, w.speed * 0.8, false, w.damage, w.color, w.explosive, w.radius, w.bounce, w.knockback, false, null, w.fireEffect, w.life||150, w.piercing, w.maxBounces||3, w.isSawblade, w.maxPierces||100, w.hasGravity, w.isSoundWave, w.isPoison, w.splashRadius, w.dotDuration));
+                    bullets.push(new Bullet(gunTipX, gunTipY, spreadAngle, w.speed * 0.8, false, w.damage, w.color, w.explosive, w.radius, w.bounce, w.knockback, false, null, w.fireEffect, w.life||2.5, w.piercing, w.maxBounces||3, w.isSawblade, w.maxPierces||100, w.hasGravity, w.isSoundWave, w.isPoison, w.splashRadius, w.dotDuration));
                 }
                 this.shootCooldown = w.cooldown * 1.5; Sound.playShoot(w.name);
             }
         }
-        this.applyPhysics();
+        this.applyPhysics(dt);
     }
 }
 
@@ -1727,6 +1782,8 @@ function initGame(mapName) {
         }
         bots.push(new Bot(400 + i*300, 100, profile));
     }
+    lastTime = 0;
+    accumulator = 0;
     gameState = 'PLAYING'; requestAnimationFrame(gameLoop);
 }
 
@@ -1768,6 +1825,10 @@ function gameOver() {
 }
 
 // ==================== GAME LOOP ====================
+const DT = 1 / 60;
+let lastTime = 0;
+let accumulator = 0;
+
 function gameLoop(timestamp) {
     if(gameState !== 'PLAYING') return;
 
@@ -1777,10 +1838,221 @@ function gameLoop(timestamp) {
     }
 
     if (isGamePaused) {
+        lastTime = performance.now();
         requestAnimationFrame(gameLoop);
         return;
     }
 
+    if (!lastTime) lastTime = timestamp;
+    let frameTime = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    if (frameTime > 0.25) {
+        frameTime = 0.25;
+    }
+
+    accumulator += frameTime;
+
+    while (accumulator >= DT) {
+        updateSimulation(DT, timestamp);
+        accumulator -= DT;
+    }
+
+    drawSimulation(timestamp);
+
+    if (window.OrbitMultiplayer) window.OrbitMultiplayer.onFrame(timestamp);
+    if (window.OrbitMultiplayer && window.OrbitMultiplayer.handleEndCondition()) return;
+    if(player.health <= 0) { spawnExplosion(player.x + player.width/2, player.y + player.height/2, '#3B82F6', true); gameOver(); }
+    else { requestAnimationFrame(gameLoop); }
+}
+
+function updateSimulation(dt, timestamp) {
+    if (weatherParticles.length > 0) {
+        weatherParticles.forEach(p => {
+            p.y += p.speed * dt * 60;
+            if (p.y > world.height + 200) p.y = -200;
+        });
+    }
+
+    player.update(dt, timestamp);
+    if (window.OrbitMultiplayer) {
+        if (typeof window.OrbitMultiplayer.onSimulationTick === 'function') {
+            window.OrbitMultiplayer.onSimulationTick(dt);
+        }
+    }
+
+    for (let i = bots.length - 1; i >= 0; i--) {
+        let b = bots[i]; b.update(dt, timestamp);
+        if(b.health <= 0) {
+            spawnExplosion(b.x + b.width/2, b.y + b.height/2, '#EF4444');
+            if(Math.random() < 0.25) drops.push(new GunDrop(b.x, b.y, b.weapon));
+            if (!killStats[b.name]) killStats[b.name] = 0; killStats[b.name]++;
+            bots.splice(i, 1);
+            let points = player.activeBuffs.DOUBLE > 0 ? 200 : 100; score += points;
+            document.getElementById('scoreDisplay').innerText = `${score}`;
+            addFloatingText('+' + points, b.x + b.width/2, b.y - 20, 'gold', 24);
+        }
+    }
+
+    const multiplayerRules = window.OrbitMultiplayer;
+    if(bots.length === 0 && atomicFlashOpacity <= 0 && (!multiplayerRules || multiplayerRules.shouldSpawnWave())) spawnWave();
+
+    if (!multiplayerRules || multiplayerRules.allowsWorldDrops()) {
+        globalDropTimer += dt;
+        if(globalDropTimer > 6.6667) {
+            globalDropTimer = 0; const wepKeys = Object.keys(WEAPONS);
+            drops.push(new GunDrop(Math.random() * (world.width - 200) + 100, 100, WEAPONS[wepKeys[Math.floor(Math.random() * wepKeys.length)]]));
+        }
+
+        globalPowerUpTimer += dt;
+        if(globalPowerUpTimer > 10.0) {
+            globalPowerUpTimer = 0;
+            powerUps.push(new PowerUpDrop(Math.random() * (world.width - 200) + 100, 100, POWER_UPS[Math.floor(Math.random() * POWER_UPS.length)]));
+        }
+    }
+
+    for (let i = specialEffects.length - 1; i >= 0; i--) {
+        let se = specialEffects[i];
+        se.life -= dt;
+        if (se.life <= 0) specialEffects.splice(i, 1);
+    }
+
+    for(let i = railgunTrails.length-1; i>=0; i--) {
+        let rt = railgunTrails[i];
+        rt.life -= dt * 60; if(rt.life <= 0) railgunTrails.splice(i, 1);
+    }
+
+    for (let i = bullets.length - 1; i >= 0; i--) {
+        let b = bullets[i]; b.update(dt);
+        if(b.life <= 0) { bullets.splice(i, 1); continue; }
+
+        if (!b.bounce && !b.piercing) {
+            let hitPlatform = false;
+            for(let p of mapPlatforms) {
+                if(b.x > p.x && b.x < p.x + p.width && b.y > p.y && b.y < p.y + p.height) {
+                    if (b.isPoison) {
+                        poisonSplash(b.x, b.y, b.splashRadius, b.dotDuration);
+                        bullets.splice(i, 1); hitPlatform = true; break;
+                    } else if (b.explosive) {
+                        rocketExplosion(b.x, b.y, b.radius);
+                    } else if (!b.fireEffect) {
+                        specialEffects.push({type: 'ring', x: b.x, y: b.y, color: b.color, life: 0.1333, maxLife: 0.1333, radius: 5});
+                        for(let k=0; k<5; k++) particles.push(new Particle(b.x, b.y, b.color, 4, 15 / 60, 2));
+                    }
+                    bullets.splice(i, 1); hitPlatform = true; break;
+                }
+            }
+            if(hitPlatform) continue;
+        }
+
+        if(b.isPlayer) {
+            for(let bot of bots) {
+                if(b.x > bot.x && b.x < bot.x + bot.width && b.y > bot.y && b.y < bot.y + bot.height) {
+                    if (b.isPoison) {
+                        poisonSplash(b.x, b.y, b.splashRadius, b.dotDuration);
+                        bullets.splice(i, 1); break;
+                    } else if (b.explosive) {
+                        rocketExplosion(b.x, b.y, b.radius);
+                        bullets.splice(i, 1); break;
+                    } else {
+                        if(b.piercing) {
+                            if(!b.hitBots.includes(bot)) {
+                                bot.health -= b.damage; bot.hitFlash = 5; b.hitBots.push(bot);
+                                specialEffects.push({type: 'ring', x: b.x, y: b.y, color: '#ffffff', life: 0.1667, maxLife: 0.1667, radius: 5});
+                                for(let k=0; k<8; k++) particles.push(new Particle(b.x, b.y, '#fbbf24', 6, 15 / 60, 2, 0.1));
+                                Sound.playHit();
+                                if(Math.random()>0.3) addFloatingText(b.damage, b.x, b.y - 20, 'white', 14);
+                                if(b.maxPierces && b.hitBots.length >= b.maxPierces) {
+                                    bullets.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        } else {
+                            bot.health -= b.damage; bot.hitFlash = 5;
+                            specialEffects.push({type: 'ring', x: b.x, y: b.y, color: '#ffffff', life: 0.1667, maxLife: 0.1667, radius: 5});
+                            for(let k=0; k<8; k++) particles.push(new Particle(b.x, b.y, '#fbbf24', 6, 15 / 60, 2, 0.1));
+                            Sound.playHit();
+                            if(Math.random()>0.3) addFloatingText(b.damage, b.x, b.y - 20, 'white', 14);
+                            if (b.knockback) { bot.vx += Math.cos(Math.atan2(bot.y - player.y, bot.x - player.x)) * b.knockback; bot.vy -= 2; }
+                            if(!b.fireEffect) bullets.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            if(b.x > player.x && b.x < player.x + player.width && b.y > player.y && b.y < player.y + player.height) {
+                if (player.activeBuffs.SHIELD > 0) {
+                    addFloatingText('BLOCKED', player.x + player.width/2, player.y - 30, '#FFD700', 18);
+                    for (let k=0; k<5; k++) particles.push(new Particle(b.x, b.y, '#FFD700', 3, 10 / 60, 3));
+                } else {
+                    if (b.isPoison) { poisonSplash(b.x, b.y, b.splashRadius, b.dotDuration); }
+                    else if (b.explosive) { rocketExplosion(b.x, b.y, b.radius); player.health -= b.damage * 1.5; }
+                    else { player.health -= b.damage; }
+                    player.hitFlash = 5; Sound.playHit(); addShake(4);
+                    specialEffects.push({type: 'ring', x: b.x, y: b.y, color: '#ff0000', life: 0.1667, maxLife: 0.1667, radius: 5});
+                    for(let k=0; k<5; k++) particles.push(new Particle(b.x, b.y, '#3B82F6', 3, 10 / 60, 3));
+                }
+                if(!b.piercing) bullets.splice(i, 1);
+            }
+        }
+    }
+
+    for (let i = drops.length - 1; i >= 0; i--) {
+        let d = drops[i]; d.update(dt);
+        if(checkCollision(player, { x: d.x, y: d.y + Math.sin(timestamp / 200 + d.bobOffset) * 5, width: d.width, height: d.height })) {
+            if (player.inventory.length < 3 && !player.inventory.some(w => w.name === d.weapon.name)) {
+                player.inventory.push(d.weapon);
+                player.weaponIndex = player.inventory.length - 1;
+                player.weapon = player.inventory[player.weaponIndex];
+            } else {
+                player.inventory[player.weaponIndex] = d.weapon;
+                player.weapon = player.inventory[player.weaponIndex];
+            }
+            drops.splice(i, 1); Sound.playPowerup();
+            addFloatingText(d.weapon.name, player.x + player.width/2, player.y - 30, d.weapon.color, 22);
+        }
+    }
+
+    for (let i = powerUps.length - 1; i >= 0; i--) {
+        let p = powerUps[i]; p.update(dt);
+        if(checkCollision(player, { x: p.x, y: p.y, width: p.width, height: p.height })) {
+            const type = p.typeObj.type;
+            if (type === 'HEAL') { player.health = Math.min(player.maxHealth, player.health + 800); addFloatingText('+800 HP', player.x, player.y - 30, '#10B981'); }
+            else if (type === 'ATOMIC') triggerAtomicBlast();
+            else if (type === 'SHIELD') { player.activeBuffs.SHIELD = 13.3333; addFloatingText('SHIELD UP', player.x, player.y - 30, '#FFD700'); }
+            else if (type === 'DOUBLE') { player.activeBuffs.DOUBLE = 13.3333; addFloatingText('2X SCORE', player.x, player.y - 30, '#FFA500'); }
+            else { player.activeBuffs[type] = 13.3333; addFloatingText(p.typeObj.label, player.x, player.y - 30, p.typeObj.color); }
+
+            powerUps.splice(i, 1); Sound.playPowerup();
+            for(let k=0; k<15; k++) particles.push(new Particle(player.x+player.width/2, player.y+player.height/2, p.typeObj.color, 5, 25 / 60, 4));
+        }
+    }
+
+    for (let i = shockwaves.length - 1; i >= 0; i--) {
+        shockwaves[i].update(dt);
+        if (shockwaves[i].life <= 0) shockwaves.splice(i, 1);
+    }
+
+    if (particles.length > MAX_PARTICLES) particles.splice(0, particles.length - MAX_PARTICLES);
+    for (let i = particles.length - 1; i >= 0; i--) { let p = particles[i]; p.update(dt); if(p.life <= 0) particles.splice(i, 1); }
+
+    for (let i = floatingTexts.length - 1; i >= 0; i--) {
+        let ft = floatingTexts[i];
+        ft.life -= dt * 60;
+        if (ft.life <= 0) floatingTexts.splice(i, 1);
+    }
+
+    if (atomicFlashOpacity > 0) {
+        atomicFlashOpacity = Math.max(0, atomicFlashOpacity - 1.2 * dt);
+    }
+
+    if (shakeIntensity > 0) {
+        shakeIntensity *= Math.pow(0.8, dt * 60);
+    }
+}
+
+function drawSimulation(timestamp) {
     camera.x = player.x + player.width/2; camera.y = player.y + player.height/2;
     let camScreenX = Math.floor(Math.max(0, Math.min(camera.x * camera.scale - canvas.width / 2, world.width * camera.scale - canvas.width)));
     let camScreenY = Math.floor(Math.max(0, Math.min(camera.y * camera.scale - canvas.height / 2, world.height * camera.scale - canvas.height)));
@@ -1845,7 +2117,6 @@ function gameLoop(timestamp) {
 
     if (shakeIntensity > 0) {
         ctx.translate((Math.random() - 0.5) * shakeIntensity, (Math.random() - 0.5) * shakeIntensity);
-        shakeIntensity *= 0.8;
     }
 
     // Render Platform Decor & Physics Blocks
@@ -1890,42 +2161,16 @@ function gameLoop(timestamp) {
         ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
         weatherParticles.forEach(p => {
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + 5, p.y + p.length); ctx.stroke();
-            p.y += p.speed;
-            if (p.y > world.height + 200) p.y = -200;
         });
     }
 
-    player.update(timestamp); player.drawCharacter(ctx, true, timestamp);
+    if (player.spawnProtectionUntil && player.spawnProtectionUntil > Date.now()) ctx.globalAlpha = 0.6;
+    player.drawCharacter(ctx, true, timestamp);
+    ctx.globalAlpha = 1.0;
     if (window.OrbitMultiplayer) window.OrbitMultiplayer.drawRemotePlayers(ctx, timestamp);
 
     for (let i = bots.length - 1; i >= 0; i--) {
-        let b = bots[i]; b.update(timestamp); b.drawCharacter(ctx, false, timestamp);
-        if(b.health <= 0) {
-            spawnExplosion(b.x + b.width/2, b.y + b.height/2, '#EF4444');
-            if(Math.random() < 0.25) drops.push(new GunDrop(b.x, b.y, b.weapon));
-            if (!killStats[b.name]) killStats[b.name] = 0; killStats[b.name]++;
-            bots.splice(i, 1);
-            let points = player.activeBuffs.DOUBLE > 0 ? 200 : 100; score += points;
-            document.getElementById('scoreDisplay').innerText = `${score}`;
-            addFloatingText('+' + points, b.x + b.width/2, b.y - 20, 'gold', 24);
-        }
-    }
-
-    const multiplayerRules = window.OrbitMultiplayer;
-    if(bots.length === 0 && atomicFlashOpacity <= 0 && (!multiplayerRules || multiplayerRules.shouldSpawnWave())) spawnWave();
-
-    if (!multiplayerRules || multiplayerRules.allowsWorldDrops()) {
-        globalDropTimer++;
-        if(globalDropTimer > 400) {
-            globalDropTimer = 0; const wepKeys = Object.keys(WEAPONS);
-            drops.push(new GunDrop(Math.random() * (world.width - 200) + 100, 100, WEAPONS[wepKeys[Math.floor(Math.random() * wepKeys.length)]]));
-        }
-
-        globalPowerUpTimer++;
-        if(globalPowerUpTimer > 600) {
-            globalPowerUpTimer = 0;
-            powerUps.push(new PowerUpDrop(Math.random() * (world.width - 200) + 100, 100, POWER_UPS[Math.floor(Math.random() * POWER_UPS.length)]));
-        }
+        bots[i].drawCharacter(ctx, false, timestamp);
     }
 
     // Special Continuous Effect Rendering (Lasers/Lightning)
@@ -1951,134 +2196,36 @@ function gameLoop(timestamp) {
             }
             ctx.stroke(); ctx.shadowBlur = 0;
         }
-        se.life--;
-        if (se.life <= 0) specialEffects.splice(i, 1);
     }
 
     // Draw Railgun Trails
     for(let i = railgunTrails.length-1; i>=0; i--) {
         let rt = railgunTrails[i];
-        ctx.strokeStyle = rt.color; ctx.lineWidth = (rt.life / 15) * 8;
+        ctx.strokeStyle = rt.color; ctx.lineWidth = Math.max(0.1, (rt.life / 15) * 8);
         ctx.shadowBlur = 15; ctx.shadowColor = rt.color;
         ctx.beginPath(); ctx.moveTo(rt.x1, rt.y1); ctx.lineTo(rt.x2, rt.y2); ctx.stroke();
         ctx.shadowBlur = 0;
-        rt.life--; if(rt.life <= 0) railgunTrails.splice(i, 1);
     }
 
     for (let i = bullets.length - 1; i >= 0; i--) {
-        let b = bullets[i]; b.update(); b.draw(ctx);
-        if(b.life <= 0) { bullets.splice(i, 1); continue; }
-
-        if (!b.bounce && !b.piercing) {
-            let hitPlatform = false;
-            for(let p of mapPlatforms) {
-                if(b.x > p.x && b.x < p.x + p.width && b.y > p.y && b.y < p.y + p.height) {
-                    if (b.isPoison) {
-                        poisonSplash(b.x, b.y, b.splashRadius, b.dotDuration);
-                        bullets.splice(i, 1); hitPlatform = true; break;
-                    } else if (b.explosive) {
-                        rocketExplosion(b.x, b.y, b.radius);
-                    } else if (!b.fireEffect) {
-                        specialEffects.push({type: 'ring', x: b.x, y: b.y, color: b.color, life: 8, maxLife: 8, radius: 5});
-                        for(let k=0; k<5; k++) particles.push(new Particle(b.x, b.y, b.color, 4, 15, 2));
-                    }
-                    bullets.splice(i, 1); hitPlatform = true; break;
-                }
-            }
-            if(hitPlatform) continue;
-        }
-
-        if(b.isPlayer) {
-            for(let bot of bots) {
-                if(b.x > bot.x && b.x < bot.x + bot.width && b.y > bot.y && b.y < bot.y + bot.height) {
-                    if (b.isPoison) {
-                        poisonSplash(b.x, b.y, b.splashRadius, b.dotDuration);
-                        bullets.splice(i, 1); break;
-                    } else if (b.explosive) {
-                        rocketExplosion(b.x, b.y, b.radius);
-                        bullets.splice(i, 1); break;
-                    } else {
-                        if(b.piercing) {
-                            if(!b.hitBots.includes(bot)) {
-                                bot.health -= b.damage; bot.hitFlash = 5; b.hitBots.push(bot);
-                                specialEffects.push({type: 'ring', x: b.x, y: b.y, color: '#ffffff', life: 10, maxLife: 10, radius: 5});
-                                for(let k=0; k<8; k++) particles.push(new Particle(b.x, b.y, '#fbbf24', 6, 15, 2, 0.1));
-                                Sound.playHit();
-                                if(Math.random()>0.3) addFloatingText(b.damage, b.x, b.y - 20, 'white', 14);
-                                if(b.maxPierces && b.hitBots.length >= b.maxPierces) {
-                                    bullets.splice(i, 1);
-                                    break;
-                                }
-                            }
-                        } else {
-                            bot.health -= b.damage; bot.hitFlash = 5;
-                            specialEffects.push({type: 'ring', x: b.x, y: b.y, color: '#ffffff', life: 10, maxLife: 10, radius: 5});
-                            for(let k=0; k<8; k++) particles.push(new Particle(b.x, b.y, '#fbbf24', 6, 15, 2, 0.1));
-                            Sound.playHit();
-                            if(Math.random()>0.3) addFloatingText(b.damage, b.x, b.y - 20, 'white', 14);
-                            if (b.knockback) { bot.vx += Math.cos(Math.atan2(bot.y - player.y, bot.x - player.x)) * b.knockback; bot.vy -= 2; }
-                            if(!b.fireEffect) bullets.splice(i, 1);
-                            break;
-                        }
-                    }
-                }
-            }
-        } else {
-            if(b.x > player.x && b.x < player.x + player.width && b.y > player.y && b.y < player.y + player.height) {
-                if (player.activeBuffs.SHIELD > 0) {
-                    addFloatingText('BLOCKED', player.x + player.width/2, player.y - 30, '#FFD700', 18);
-                    for (let k=0; k<5; k++) particles.push(new Particle(b.x, b.y, '#FFD700', 3, 10, 3));
-                } else {
-                    if (b.isPoison) { poisonSplash(b.x, b.y, b.splashRadius, b.dotDuration); }
-                    else if (b.explosive) { rocketExplosion(b.x, b.y, b.radius); player.health -= b.damage * 1.5; }
-                    else { player.health -= b.damage; }
-                    player.hitFlash = 5; Sound.playHit(); addShake(4);
-                    specialEffects.push({type: 'ring', x: b.x, y: b.y, color: '#ff0000', life: 10, maxLife: 10, radius: 5});
-                    for(let k=0; k<5; k++) particles.push(new Particle(b.x, b.y, '#3B82F6', 3, 10, 3));
-                }
-                if(!b.piercing) bullets.splice(i, 1);
-            }
-        }
+        bullets[i].draw(ctx);
     }
 
     for (let i = drops.length - 1; i >= 0; i--) {
-        let d = drops[i]; d.update(); d.draw(ctx, timestamp);
-        if(checkCollision(player, { x: d.x, y: d.y + Math.sin(timestamp / 200 + d.bobOffset) * 5, width: d.width, height: d.height })) {
-            if (player.inventory.length < 3 && !player.inventory.some(w => w.name === d.weapon.name)) {
-                player.inventory.push(d.weapon);
-                player.weaponIndex = player.inventory.length - 1;
-                player.weapon = player.inventory[player.weaponIndex];
-            } else {
-                player.inventory[player.weaponIndex] = d.weapon;
-                player.weapon = player.inventory[player.weaponIndex];
-            }
-            drops.splice(i, 1); Sound.playPowerup();
-            addFloatingText(d.weapon.name, player.x + player.width/2, player.y - 30, d.weapon.color, 22);
-        }
+        drops[i].draw(ctx, timestamp);
     }
 
     for (let i = powerUps.length - 1; i >= 0; i--) {
-        let p = powerUps[i]; p.update(); p.draw(ctx, timestamp);
-        if(checkCollision(player, { x: p.x, y: p.y, width: p.width, height: p.height })) {
-            const type = p.typeObj.type;
-            if (type === 'HEAL') { player.health = Math.min(player.maxHealth, player.health + 800); addFloatingText('+800 HP', player.x, player.y - 30, '#10B981'); }
-            else if (type === 'ATOMIC') triggerAtomicBlast();
-            else if (type === 'SHIELD') { player.activeBuffs.SHIELD = 800; addFloatingText('SHIELD UP', player.x, player.y - 30, '#FFD700'); }
-            else if (type === 'DOUBLE') { player.activeBuffs.DOUBLE = 800; addFloatingText('2X SCORE', player.x, player.y - 30, '#FFA500'); }
-            else { player.activeBuffs[type] = 800; addFloatingText(p.typeObj.label, player.x, player.y - 30, p.typeObj.color); }
-
-            powerUps.splice(i, 1); Sound.playPowerup();
-            for(let k=0; k<15; k++) particles.push(new Particle(player.x+player.width/2, player.y+player.height/2, p.typeObj.color, 5, 25, 4));
-        }
+        powerUps[i].draw(ctx, timestamp);
     }
 
     for (let i = shockwaves.length - 1; i >= 0; i--) {
-        shockwaves[i].update(); shockwaves[i].draw(ctx);
-        if (shockwaves[i].life <= 0) shockwaves.splice(i, 1);
+        shockwaves[i].draw(ctx);
     }
 
-    if (particles.length > MAX_PARTICLES) particles.splice(0, particles.length - MAX_PARTICLES);
-    for (let i = particles.length - 1; i >= 0; i--) { let p = particles[i]; p.update(); p.draw(ctx); if(p.life <= 0) particles.splice(i, 1); }
+    for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].draw(ctx);
+    }
 
     ctx.restore();
 
@@ -2088,12 +2235,10 @@ function gameLoop(timestamp) {
         ctx.font = `900 ${ft.size}px "Segoe UI", Arial`; ctx.fillStyle = ft.color;
         ctx.shadowBlur = 8; ctx.shadowColor = 'rgba(0,0,0,0.8)';
         ctx.textAlign = 'center'; ctx.fillText(ft.text, screenX, screenY); ctx.shadowBlur = 0;
-        ft.life--; if (ft.life <= 0) floatingTexts.splice(i, 1);
     }
 
     if (atomicFlashOpacity > 0) {
         ctx.fillStyle = `rgba(255, 255, 255, ${atomicFlashOpacity})`; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        atomicFlashOpacity -= 0.02;
     }
 
     if (isMobile) {
@@ -2107,11 +2252,6 @@ function gameLoop(timestamp) {
             ctx.beginPath(); ctx.arc(joysticks.right.currX, joysticks.right.currY, 25, 0, Math.PI*2); ctx.fillStyle = 'rgba(239, 68, 68, 0.5)'; ctx.fill();
         }
     }
-
-    if (window.OrbitMultiplayer) window.OrbitMultiplayer.onFrame(timestamp);
-    if (window.OrbitMultiplayer && window.OrbitMultiplayer.handleEndCondition()) return;
-    if(player.health <= 0) { spawnExplosion(player.x + player.width/2, player.y + player.height/2, '#3B82F6', true); gameOver(); }
-    else { requestAnimationFrame(gameLoop); }
 }
 
 // ==================== CUSTOMIZATION ====================

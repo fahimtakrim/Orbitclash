@@ -3,3 +3,6 @@ dist/
 .site-static/
 .DS_Store
 npm-debug.log*
+.agents/
+.openai/
+

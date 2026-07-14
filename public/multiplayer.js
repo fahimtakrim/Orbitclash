@@ -48,6 +48,7 @@
     lastSquadHtml: '',
     trackedBots: new WeakSet(),
     sequence: 0,
+    trackedRemoteShots: new Map(),
   };
 
   let currentMapName = 'Forest';
@@ -192,6 +193,9 @@
       case 'roster':
         updateRoster(message.roster);
         break;
+      case 'peer_left':
+        handlePeerDisconnect(message.peerId);
+        break;
       case 'game_started':
       case 'restart_game':
         beginNetworkGame(message.config || {});
@@ -242,10 +246,21 @@
     $('hostOptions')?.classList.toggle('hidden', !mp.isHost);
     $('guestWaiting')?.classList.toggle('hidden', mp.isHost);
     syncLobbyMatchFields();
-    if ($('lobbyStatus')) {
-      $('lobbyStatus').textContent = mp.isHost
-        ? 'Share the room code, configure the mission, then launch.'
-        : 'Connected. Waiting for the squad leader to deploy.';
+    if (mp.isHost) {
+      const launchBtn = $('lobbyStartBtn');
+      if (launchBtn) {
+        if (mp.roster.length < 2) {
+          launchBtn.disabled = true;
+          if ($('lobbyStatus')) $('lobbyStatus').textContent = 'Awaiting rival pilot to connect…';
+        } else {
+          launchBtn.disabled = false;
+          if ($('lobbyStatus')) $('lobbyStatus').textContent = 'Rival pilot connected. Launch ready.';
+        }
+      }
+    } else {
+      if ($('lobbyStatus')) {
+        $('lobbyStatus').textContent = 'Connected. Waiting for the squad leader to deploy.';
+      }
     }
   }
 
@@ -259,6 +274,19 @@
       if (!mp.playerKills.has(member.id)) mp.playerKills.set(member.id, 0);
       if (!mp.pvpKills.has(member.id)) mp.pvpKills.set(member.id, 0);
       if (!mp.pvpDeaths.has(member.id)) mp.pvpDeaths.set(member.id, 0);
+    }
+
+    if (mp.isHost) {
+      const launchBtn = $('lobbyStartBtn');
+      if (launchBtn) {
+        if (mp.roster.length < 2) {
+          launchBtn.disabled = true;
+          if ($('lobbyStatus')) $('lobbyStatus').textContent = 'Awaiting rival pilot to connect…';
+        } else {
+          launchBtn.disabled = false;
+          if ($('lobbyStatus')) $('lobbyStatus').textContent = 'Rival pilot connected. Launch ready.';
+        }
+      }
     }
 
     const list = $('lobbyPlayerList');
@@ -330,6 +358,7 @@
     mp.remotePlayers.clear();
     mp.trackedBots = new WeakSet();
     mp.trackedLocalBullets = new WeakSet();
+    mp.trackedRemoteShots.clear();
     mp.pvpProcessedHits.clear();
     mp.pvpWinnerId = '';
     mp.lastKillEvent = null;
@@ -340,6 +369,7 @@
     mp.pvpDeaths = new Map(mp.roster.map((entry) => [entry.id, 0]));
     setDifficulty(level);
     $('lobbyMenu')?.classList.add('hidden');
+    $('gameOverMenu')?.classList.add('hidden');
     initGame(map);
     if (mp.matchType === 'PVP') {
       bots = [];
@@ -416,6 +446,10 @@
       remote.isNetworkProxy = true;
       remote.maxHealth = Number(state.maxHealth) || 2000;
       remote.health = Number.isFinite(state.health) ? state.health : remote.maxHealth;
+      remote.targetX = remote.x;
+      remote.targetY = remote.y;
+      remote.targetVx = 0;
+      remote.targetVy = 0;
       mp.remotePlayers.set(id, remote);
     }
     return remote;
@@ -427,13 +461,40 @@
     const member = mp.roster[memberIndex];
     if (!member) return;
     const remote = ensureRemotePlayer(playerId, member.name, memberIndex, state);
-    remote.x = clampNumber(state.x, 0, world.width - remote.width, remote.x);
-    remote.y = clampNumber(state.y, -300, world.height + 300, remote.y);
-    remote.vx = clampNumber(state.vx, -40, 40, 0);
-    remote.vy = clampNumber(state.vy, -40, 40, 0);
+
+    let proposedX = clampNumber(state.x, 0, world.width - remote.width, remote.x);
+    let proposedY = clampNumber(state.y, -300, world.height + 300, remote.y);
+
+    let dist = Math.hypot(proposedX - remote.targetX, proposedY - remote.targetY);
+    if (remote.targetX && remote.targetY && dist > 300) {
+      proposedX = remote.targetX;
+      proposedY = remote.targetY;
+    }
+
+    let tempRect = { x: proposedX, y: proposedY, width: remote.width, height: remote.height };
+    for (let p of mapPlatforms) {
+      if (checkCollision(tempRect, p)) {
+        let overlapX = Math.min(tempRect.x + tempRect.width - p.x, p.x + p.width - tempRect.x);
+        let overlapY = Math.min(tempRect.y + tempRect.height - p.y, p.y + p.height - tempRect.y);
+        if (overlapX < overlapY) {
+          if (tempRect.x + tempRect.width/2 < p.x + p.width/2) proposedX -= overlapX;
+          else proposedX += overlapX;
+        } else {
+          if (tempRect.y + tempRect.height/2 < p.y + p.height/2) proposedY -= overlapY;
+          else proposedY += overlapY;
+        }
+        tempRect.x = proposedX;
+        tempRect.y = proposedY;
+      }
+    }
+
+    remote.targetX = proposedX;
+    remote.targetY = proposedY;
+    remote.targetVx = clampNumber(state.vx, -40, 40, 0);
+    remote.targetVy = clampNumber(state.vy, -40, 40, 0);
     remote.armAngle = clampNumber(state.armAngle, -Math.PI * 2, Math.PI * 2, 0);
     remote.onGround = Boolean(state.onGround);
-    remote.shootCooldown = clampNumber(state.shootCooldown, 0, 180, 0);
+    remote.shootCooldown = clampNumber(state.shootCooldown, 0, 3.0, 0);
     if (typeof state.weapon === 'string' && WEAPONS[state.weapon]) remote.weapon = WEAPONS[state.weapon];
   }
 
@@ -474,12 +535,31 @@
     if (!safeBulletId) return;
     const hitKey = `${attackerId}:${targetId}:${safeBulletId}`;
     if (mp.pvpProcessedHits.has(hitKey)) return;
+
+    const target = fighterForId(targetId);
+    if (!target || target.health <= 0 || target.respawnAt > Date.now()) return;
+    if (target.spawnProtectionUntil && target.spawnProtectionUntil > Date.now()) return;
+
+    const shot = mp.trackedRemoteShots.get(safeBulletId);
+    if (!shot) {
+      console.warn('Rejecting hit: unregistered bullet ID', safeBulletId);
+      return;
+    }
+
+    let elapsedSeconds = (Date.now() - shot.time) / 1000;
+    let bulletCurrentX = shot.x + shot.vx * elapsedSeconds * 60;
+    let bulletCurrentY = shot.y + shot.vy * elapsedSeconds * 60;
+    let dist = Math.hypot(target.x + target.width/2 - bulletCurrentX, target.y + target.height/2 - bulletCurrentY);
+    if (dist > 180) {
+      console.warn('Rejecting hit: target too far from bullet trajectory', dist);
+      return;
+    }
+
     mp.pvpProcessedHits.add(hitKey);
     trimProcessedPvpHits();
 
-    const target = fighterForId(targetId);
     const damage = clampNumber(amount, 1, 90, 0);
-    if (!target || !damage || target.health <= 0 || target.respawnAt > Date.now()) return;
+    if (!damage) return;
     target.health = Math.max(0, target.health - damage);
     target.hitFlash = 5;
     target.lastDamagedBy = attackerId;
@@ -514,7 +594,7 @@
       color: bullet.color,
       width: Math.min(30, Number(bullet.width) || 12),
       height: Math.min(12, Number(bullet.height) || 4),
-      life: Math.min(110, Number(bullet.life) || 90),
+      life: Math.min(3.0, Number(bullet.life) || 1.5),
     };
   }
 
@@ -527,6 +607,16 @@
         mp.trackedLocalBullets.add(bullet);
         bullet.networkBulletId = `${mp.playerId}-${++mp.shotSequence}`;
         bullet.hitNetworkPlayers = new Set();
+        if (mp.isHost) {
+          mp.trackedRemoteShots.set(bullet.networkBulletId, {
+            x: bullet.x,
+            y: bullet.y,
+            vx: bullet.vx,
+            vy: bullet.vy,
+            time: Date.now(),
+            damage: bullet.damage || 20,
+          });
+        }
         send({ type: 'pvp_shot', shot: serializePvpShot(bullet) });
       }
       for (const [targetId, remote] of mp.remotePlayers) {
@@ -546,8 +636,21 @@
 
   function receivePvpShot(playerId, shot) {
     if (mp.matchType !== 'PVP' || playerId === mp.playerId || !shot || typeof shot !== 'object') return;
+    if (!mp.roster.some((member) => member.id === playerId)) return;
     const id = String(shot.id || '').slice(0, 80);
     if (!id || mp.pvpProjectiles.some((projectile) => projectile.id === id)) return;
+    
+    if (mp.isHost) {
+      mp.trackedRemoteShots.set(id, {
+        x: Number(shot.x) || 0,
+        y: Number(shot.y) || 0,
+        vx: Number(shot.vx) || 0,
+        vy: Number(shot.vy) || 0,
+        time: Date.now(),
+        damage: 20,
+      });
+    }
+
     mp.pvpProjectiles.push({
       id,
       ownerId: playerId,
@@ -559,17 +662,17 @@
       color: typeof shot.color === 'string' ? shot.color.slice(0, 24) : '#fef08a',
       width: clampNumber(shot.width, 3, 30, 12),
       height: clampNumber(shot.height, 2, 12, 4),
-      life: clampNumber(shot.life, 1, 110, 90),
+      life: clampNumber(shot.life, 0.01, 3.0, 1.5),
     });
     if (mp.pvpProjectiles.length > 120) mp.pvpProjectiles.splice(0, mp.pvpProjectiles.length - 120);
   }
 
-  function advancePvpProjectiles() {
+  function advancePvpProjectiles(dt) {
     for (let index = mp.pvpProjectiles.length - 1; index >= 0; index--) {
       const projectile = mp.pvpProjectiles[index];
-      projectile.x += projectile.vx;
-      projectile.y += projectile.vy;
-      projectile.life--;
+      projectile.x += projectile.vx * dt * 60;
+      projectile.y += projectile.vy * dt * 60;
+      projectile.life -= dt;
       if (projectile.life <= 0 || projectile.x < -150 || projectile.x > world.width + 150 || projectile.y < -150 || projectile.y > world.height + 150) {
         mp.pvpProjectiles.splice(index, 1);
       }
@@ -598,6 +701,7 @@
       const fighter = fighterForId(member.id);
       if (!fighter || fighter.health > 0 || !fighter.respawnAt || fighter.respawnAt > now) continue;
       configurePvpFighter(fighter, index);
+      fighter.spawnProtectionUntil = Date.now() + 2000;
     }
   }
 
@@ -664,6 +768,7 @@
       shootCooldown: fighter.shootCooldown || 0,
       activeBuffs: { ...(fighter.activeBuffs || {}) },
       respawnAt: Number(fighter.respawnAt) || 0,
+      spawnProtectionUntil: Number(fighter.spawnProtectionUntil) || 0,
     };
   }
 
@@ -744,12 +849,23 @@
           player.health = Math.max(0, Number(state.health) || 0);
           player.maxHealth = Number(state.maxHealth) || 2000;
           player.respawnAt = Number(state.respawnAt) || 0;
+          if (state.spawnProtectionUntil) player.spawnProtectionUntil = state.spawnProtectionUntil;
+
+          let hostX = Number(state.x) || 0;
+          let hostY = Number(state.y) || 0;
+          let localDist = Math.hypot(player.x - hostX, player.y - hostY);
           if (wasDown && player.health > 0 && mp.matchType === 'PVP') {
-            player.x = Number(state.x) || player.x;
-            player.y = Number(state.y) || player.y;
+            player.x = hostX;
+            player.y = hostY;
+            player.vx = Number(state.vx) || 0;
+            player.vy = Number(state.vy) || 0;
+          } else if (localDist > 80) {
+            player.x = hostX;
+            player.y = hostY;
             player.vx = Number(state.vx) || 0;
             player.vy = Number(state.vy) || 0;
           }
+
           player.activeBuffs = { ...player.activeBuffs, ...(state.activeBuffs || {}) };
           const inventory = Array.isArray(state.inventory) ? state.inventory.map((name) => WEAPONS[name]).filter(Boolean).slice(0, 3) : [];
           if (inventory.length) player.inventory = inventory;
@@ -761,17 +877,18 @@
         } else {
           const member = mp.roster.find((entry) => entry.id === state.id);
           const remote = ensureRemotePlayer(state.id, state.name || member?.name || 'Pilot', index, state);
+          remote.targetX = Number(state.x) || 0;
+          remote.targetY = Number(state.y) || 0;
+          remote.targetVx = Number(state.vx) || 0;
+          remote.targetVy = Number(state.vy) || 0;
           Object.assign(remote, {
-            x: Number(state.x) || 0,
-            y: Number(state.y) || 0,
-            vx: Number(state.vx) || 0,
-            vy: Number(state.vy) || 0,
             armAngle: Number(state.armAngle) || 0,
             onGround: Boolean(state.onGround),
             health: Math.max(0, Number(state.health) || 0),
             maxHealth: Number(state.maxHealth) || 2000,
             shootCooldown: Number(state.shootCooldown) || 0,
             respawnAt: Number(state.respawnAt) || 0,
+            spawnProtectionUntil: Number(state.spawnProtectionUntil) || 0,
           });
           remote.weapon = WEAPONS[state.weapon] || WEAPONS.PISTOL;
         }
@@ -875,7 +992,7 @@
       const type = pickup.typeObj.type;
       if (type === 'HEAL') receiver.health = Math.min(receiver.maxHealth, receiver.health + 800);
       else if (type === 'ATOMIC') triggerAtomicBlast();
-      else if (receiver.activeBuffs && type in receiver.activeBuffs) receiver.activeBuffs[type] = 800;
+      else if (receiver.activeBuffs && type in receiver.activeBuffs) receiver.activeBuffs[type] = 13.3333;
       powerUps.splice(index, 1);
     }
   }
@@ -886,6 +1003,7 @@
     for (const remote of mp.remotePlayers.values()) {
       context.save();
       if (remote.health <= 0) context.globalAlpha = 0.34;
+      else if (remote.spawnProtectionUntil && remote.spawnProtectionUntil > Date.now()) context.globalAlpha = 0.6;
       remote.drawCharacter(context, true, timestamp);
       context.globalAlpha = 1;
       const ratio = Math.max(0, remote.health / remote.maxHealth);
@@ -921,24 +1039,58 @@
     context.restore();
   }
 
+  function onSimulationTick(dt) {
+    if (!mp.active || gameState !== 'PLAYING') return;
+
+    const LERP_FACTOR = 0.2;
+    for (const remote of mp.remotePlayers.values()) {
+      if (remote.health <= 0) continue;
+
+      let dx = remote.targetX - remote.x;
+      let dy = remote.targetY - remote.y;
+      let dist = Math.hypot(dx, dy);
+
+      if (dist > 250) {
+        remote.x = remote.targetX;
+        remote.y = remote.targetY;
+        remote.vx = remote.targetVx;
+        remote.vy = remote.targetVy;
+      } else {
+        remote.x += dx * LERP_FACTOR * dt * 60;
+        remote.y += dy * LERP_FACTOR * dt * 60;
+        remote.x += remote.vx * dt;
+        remote.y += remote.vy * dt;
+
+        remote.vx += (remote.targetVx - remote.vx) * LERP_FACTOR * dt * 60;
+        remote.vy += (remote.targetVy - remote.vy) * LERP_FACTOR * dt * 60;
+      }
+    }
+
+    if (mp.matchType === 'PVP') {
+      advancePvpProjectiles(dt);
+      processLocalPvpBullets();
+    }
+    if (mp.isHost) {
+      if (mp.matchType !== 'PVP') processRemoteHazards();
+    } else {
+      drops = [];
+      powerUps = [];
+    }
+  }
+
   function onFrame(timestamp) {
     if (!mp.active || gameState !== 'PLAYING') return;
     if (mp.matchType === 'PVP') {
-      advancePvpProjectiles();
-      processLocalPvpBullets();
       updatePvpRespawnOverlay();
     } else {
       for (const bot of bots) installBotTracking(bot);
     }
     if (mp.isHost) {
-      if (mp.matchType !== 'PVP') processRemoteHazards();
       if (timestamp - mp.lastSnapshotSent >= SNAPSHOT_INTERVAL) {
         mp.lastSnapshotSent = timestamp;
         send({ type: 'host_snapshot', snapshot: buildHostSnapshot() });
       }
     } else {
-      drops = [];
-      powerUps = [];
       sendGuestState(timestamp);
     }
     updateSquadHud(false, timestamp);
@@ -1137,6 +1289,16 @@
     updateSessionUI();
   }
 
+  function handlePeerDisconnect(peerId) {
+    if (!mp.active) return;
+    const wasInRoster = mp.roster.some((member) => member.id === peerId);
+    if (wasInRoster) {
+      showToast('A pilot disconnected. Terminating mission.');
+      resetMultiplayerState(true);
+      returnToMenu(false);
+    }
+  }
+
   function returnToMenu(disconnect = true) {
     if (disconnect) resetMultiplayerState(true);
     gameState = 'MENU';
@@ -1259,6 +1421,7 @@
   window.OrbitMultiplayer = {
     drawRemotePlayers,
     onFrame,
+    onSimulationTick,
     handleEndCondition,
     shouldSpawnWave() { return !mp.active || mp.matchType !== 'PVP'; },
     allowsWorldDrops() { return !mp.active || mp.matchType !== 'PVP'; },

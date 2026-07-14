@@ -177,7 +177,10 @@ function openRoom({ code, name, role, onMessage }) {
     if (state.role === 'host') {
       const before = state.roster.length;
       state.roster = state.roster.filter((member) => member.id !== peerId);
-      if (state.roster.length !== before) broadcastRoster();
+      if (state.roster.length !== before) {
+        broadcastRoster();
+        emit({ type: 'peer_left', peerId });
+      }
     } else if (peerId === state.hostPeerId) {
       emit({ type: 'room_closed', message: 'The squad leader left the room.' });
       closeRoom();
