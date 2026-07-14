@@ -501,14 +501,17 @@ let score = 0;
 let wave = 1;
 let globalDropTimer = 0;
 let globalPowerUpTimer = 0;
+const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+    || (window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1024);
+
 const DEVICE_PROFILE = {
-    touch: window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0,
+    touch: isMobileDevice,
     lowMemory: Number(navigator.deviceMemory || 4) <= 4,
     lowCpu: Number(navigator.hardwareConcurrency || 4) <= 4
 };
 DEVICE_PROFILE.lite = DEVICE_PROFILE.touch || DEVICE_PROFILE.lowMemory || DEVICE_PROFILE.lowCpu;
 let isMobile = DEVICE_PROFILE.touch;
-const MAX_PARTICLES = DEVICE_PROFILE.lite ? 60 : 520;
+const MAX_PARTICLES = DEVICE_PROFILE.lite ? 300 : 520;
 let killStats = {};
 let atomicFlashOpacity = 0;
 let railgunTrails = [];
@@ -1632,10 +1635,9 @@ function drawRockPlatform(ctx, x, y, w, h, topColor = '#2e7d32', baseColor = '#8
 
 function createBuilding(bx, by, bw, bh) {
     let windows = [];
-    if (!DEVICE_PROFILE.lite) {
-        for(let wy=by+20; wy<by+bh; wy+=30) {
-            for(let wx=bx+10; wx<bx+bw-10; wx+=20) { if(Math.random()>0.7) windows.push({x: wx, y: wy}); }
-        }
+    let probability = DEVICE_PROFILE.lite ? 0.85 : 0.7;
+    for(let wy=by+20; wy<by+bh; wy+=30) {
+        for(let wx=bx+10; wx<bx+bw-10; wx+=20) { if(Math.random()>probability) windows.push({x: wx, y: wy}); }
     }
     return {x: bx, y: by, w: bw, h: bh, baseColor: Math.random()>0.95?'#facc15':'#1e293b', windows: windows};
 }
@@ -1711,8 +1713,8 @@ function createMap(mapName) {
         let tier2 = [{x:500,y:world.height-450,w:200},{x:1100,y:world.height-500,w:200},{x:1700,y:world.height-550,w:200},{x:2300,y:world.height-500,w:200},{x:3100,y:world.height-450,w:200}];
         tier1.concat(tier2).forEach(p => mapPlatforms.push({x: p.x, y: p.y, width: p.w, height: 25, color: '#475569', border: '#94a3b8', neon: false}));
     } else if (mapName === 'Cyber City') {
-        let cyberBg1 = Array.from({length: DEVICE_PROFILE.lite ? 6 : 20}, ()=> createBuilding(Math.random()*world.width*1.5, world.height-(400+Math.random()*400), 80+Math.random()*150, 1000));
-        let cyberBg2 = Array.from({length: DEVICE_PROFILE.lite ? 8 : 30}, ()=> createBuilding(Math.random()*world.width*1.2, world.height-(300+Math.random()*300), 60+Math.random()*100, 800));
+        let cyberBg1 = Array.from({length: DEVICE_PROFILE.lite ? 12 : 20}, ()=> createBuilding(Math.random()*world.width*1.5, world.height-(400+Math.random()*400), 80+Math.random()*150, 1000));
+        let cyberBg2 = Array.from({length: DEVICE_PROFILE.lite ? 18 : 30}, ()=> createBuilding(Math.random()*world.width*1.2, world.height-(300+Math.random()*300), 60+Math.random()*100, 800));
 
         bgLayers = [
             { color: '#020617', type: 'sky' },
@@ -1720,7 +1722,7 @@ function createMap(mapName) {
             { color: '#312e81', speed: 0.25, type: 'cyber_mid', items: cyberBg2 }
         ];
 
-        const rainCount = DEVICE_PROFILE.lite ? 25 : 180;
+        const rainCount = DEVICE_PROFILE.lite ? 60 : 180;
         for(let i=0; i<rainCount; i++) weatherParticles.push({x: Math.random()*world.width, y: Math.random()*world.height, speed: 15+Math.random()*10, length: 20+Math.random()*20, type: 'rain'});
 
         mapPlatforms.push({x: -100, y: -100, width: world.width + 200, height: 140, color: '#020617', border: '#06b6d4', neon: true});
@@ -1869,9 +1871,10 @@ function gameLoop(timestamp) {
         return;
     }
 
-    if (!lastTime) lastTime = timestamp;
-    let frameTime = (timestamp - lastTime) / 1000;
-    lastTime = timestamp;
+    const now = performance.now();
+    if (!lastTime) lastTime = now;
+    let frameTime = (now - lastTime) / 1000;
+    lastTime = now;
 
     if (frameTime > 0.1) {
         frameTime = 0.1;
@@ -1880,13 +1883,13 @@ function gameLoop(timestamp) {
     accumulator += frameTime;
 
     while (accumulator >= DT) {
-        updateSimulation(DT, timestamp);
+        updateSimulation(DT, now);
         accumulator -= DT;
     }
 
-    drawSimulation(timestamp);
+    drawSimulation(now);
 
-    if (window.OrbitMultiplayer) window.OrbitMultiplayer.onFrame(timestamp);
+    if (window.OrbitMultiplayer) window.OrbitMultiplayer.onFrame(now);
     if (window.OrbitMultiplayer && window.OrbitMultiplayer.handleEndCondition()) return;
     if(player.health <= 0) { spawnExplosion(player.x + player.width/2, player.y + player.height/2, '#3B82F6', true); gameOver(); }
     else { requestAnimationFrame(gameLoop); }
