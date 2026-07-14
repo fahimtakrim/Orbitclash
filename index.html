@@ -72,8 +72,12 @@
 
     <canvas id="gameCanvas"></canvas>
 
-    <div id="pauseOverlay" class="pause-overlay hidden pointer-events-none">
-        <h1 class="pause-title">PAUSED</h1>
+    <div id="pauseOverlay" class="pause-overlay hidden pointer-events-auto">
+        <div class="glass-panel" style="padding: 30px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; gap: 15px; min-width: 280px; align-items: center; border: 2px solid #346b14; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <h1 class="pause-title" style="margin: 0 0 10px 0; font-size: 3rem; text-shadow: 0 0 15px rgba(255,255,255,0.5);">PAUSED</h1>
+            <button id="resumeBtn" class="hud-action pointer-events-auto" style="width: 100%; max-width: 200px; padding: 12px; font-weight: bold; background: #659b19; border-color: #a4e344;">RESUME GAME</button>
+            <button id="pauseMenuBtn" class="hud-action pointer-events-auto" style="width: 100%; max-width: 200px; padding: 12px; font-weight: bold; background: #ef4444; border-color: #f87171;">QUIT TO MENU</button>
+        </div>
     </div>
 
     <div id="ui-layer">
@@ -789,8 +793,8 @@ class Shockwave {
 function spawnExplosion(x, y, color, big = false) {
     let count = big ? 50 : 25;
     for(let i=0; i<count; i++) {
-        particles.push(new Particle(x, y, color, 8, big ? 45 : 30, Math.random()* (big ? 10 : 5) + 2, 0.1));
-        particles.push(new Particle(x, y, '#222', 4, big ? 60 : 40, Math.random()* (big ? 15 : 8) + 5, -0.05, false, false, true));
+        particles.push(new Particle(x, y, color, 8, (big ? 45 : 30) / 60, Math.random()* (big ? 10 : 5) + 2, 0.1));
+        particles.push(new Particle(x, y, '#222', 4, (big ? 60 : 40) / 60, Math.random()* (big ? 15 : 8) + 5, -0.05, false, false, true));
     }
     Sound.playExplosion(big ? 0.6 : 0.3);
     if (big) addShake(20); else addShake(8);
@@ -798,7 +802,7 @@ function spawnExplosion(x, y, color, big = false) {
 }
 
 function poisonSplash(x, y, rad, duration) {
-    for(let i=0; i<30; i++) particles.push(new Particle(x, y, '#22c55e', 6, 40, Math.random()*4+2, 0.1));
+    for(let i=0; i<30; i++) particles.push(new Particle(x, y, '#22c55e', 6, 40 / 60, Math.random()*4+2, 0.1));
     Sound.playExplosion(0.2);
     for (let bot of bots) {
         if (Math.hypot(bot.x+bot.width/2 - x, bot.y+bot.height/2 - y) < rad) {
@@ -817,7 +821,7 @@ function rocketExplosion(x, y, rad = 120) {
         if (dist < rad) {
             bot.health -= 150;
             bot.vx += dx * 0.25; bot.vy += dy * 0.25;
-            for (let j=0; j<10; j++) particles.push(new Particle(bot.x+bot.width/2, bot.y+bot.height/2, '#8B0000', 8, 20, 4, 0.1));
+            for (let j=0; j<10; j++) particles.push(new Particle(bot.x+bot.width/2, bot.y+bot.height/2, '#8B0000', 8, 20 / 60, 4, 0.1));
         }
     }
     if (Math.hypot(player.x+player.width/2 - x, player.y+player.height/2 - y) < rad) {
@@ -2340,6 +2344,12 @@ function setDifficulty(level) {
 bindInteractive('difficultyEasy', () => setDifficulty('EASY'));
 bindInteractive('difficultyNormal', () => setDifficulty('NORMAL'));
 bindInteractive('difficultyHard', () => setDifficulty('HARD'));
+
+bindInteractive('resumeBtn', () => {
+    isGamePaused = false;
+    document.getElementById('pauseBtn').innerText = "PAUSE";
+    document.getElementById('pauseOverlay').classList.add('hidden');
+});
 
 ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, canvas.width, canvas.height);
 buildCustomizeMenu();
