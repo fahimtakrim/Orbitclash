@@ -97,7 +97,10 @@
                         <span class="micro-label">ACTIVE SYSTEM</span>
                         <strong id="weaponDisplay">PISTOL</strong>
                     </div>
-                    <button id="pauseBtn" class="hud-action pointer-events-auto">PAUSE</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button id="pauseBtn" class="hud-action pointer-events-auto">PAUSE</button>
+                        <button id="hudMenuBtn" class="hud-action pointer-events-auto" style="background: #ef4444; border-color: #f87171;">MENU</button>
+                    </div>
                 </div>
                 <div id="inventoryDisplay" class="inventory-strip"></div>
                 <div id="buffIndicators" class="buff-strip"></div>
@@ -505,7 +508,7 @@ const DEVICE_PROFILE = {
 };
 DEVICE_PROFILE.lite = DEVICE_PROFILE.touch || DEVICE_PROFILE.lowMemory || DEVICE_PROFILE.lowCpu;
 let isMobile = DEVICE_PROFILE.touch;
-const MAX_PARTICLES = DEVICE_PROFILE.lite ? 170 : 520;
+const MAX_PARTICLES = DEVICE_PROFILE.lite ? 60 : 520;
 let killStats = {};
 let atomicFlashOpacity = 0;
 let railgunTrails = [];
@@ -1698,7 +1701,7 @@ function createMap(mapName) {
             { color: '#312e81', speed: 0.25, type: 'cyber_mid', items: cyberBg2 }
         ];
 
-        const rainCount = DEVICE_PROFILE.lite ? 70 : 180;
+        const rainCount = DEVICE_PROFILE.lite ? 25 : 180;
         for(let i=0; i<rainCount; i++) weatherParticles.push({x: Math.random()*world.width, y: Math.random()*world.height, speed: 15+Math.random()*10, length: 20+Math.random()*20, type: 'rain'});
 
         mapPlatforms.push({x: -100, y: -100, width: world.width + 200, height: 140, color: '#020617', border: '#06b6d4', neon: true});
@@ -1740,6 +1743,10 @@ function triggerAtomicBlast() {
 }
 
 function initGame(mapName) {
+    if (window.OrbitMultiplayer && typeof window.OrbitMultiplayer.checkAndPromptName === 'function') {
+        const activeName = window.OrbitMultiplayer.checkAndPromptName();
+        if (!activeName) return;
+    }
     enterLandscapeMode();
     if(audioCtx.state === 'suspended') audioCtx.resume();
     Sound.startAmbient(mapName);
@@ -1904,10 +1911,12 @@ function updateSimulation(dt, timestamp) {
             drops.push(new GunDrop(Math.random() * (world.width - 200) + 100, 100, WEAPONS[wepKeys[Math.floor(Math.random() * wepKeys.length)]]));
         }
 
-        globalPowerUpTimer += dt;
-        if(globalPowerUpTimer > 10.0) {
-            globalPowerUpTimer = 0;
-            powerUps.push(new PowerUpDrop(Math.random() * (world.width - 200) + 100, 100, POWER_UPS[Math.floor(Math.random() * POWER_UPS.length)]));
+        if (!multiplayerRules || !multiplayerRules.isPvpMatch()) {
+            globalPowerUpTimer += dt;
+            if(globalPowerUpTimer > 10.0) {
+                globalPowerUpTimer = 0;
+                powerUps.push(new PowerUpDrop(Math.random() * (world.width - 200) + 100, 100, POWER_UPS[Math.floor(Math.random() * POWER_UPS.length)]));
+            }
         }
     }
 

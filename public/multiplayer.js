@@ -79,6 +79,23 @@
     return name;
   }
 
+  function checkAndPromptName() {
+    const input = $('playerNameInput');
+    const currentName = input ? input.value.trim() : '';
+    if (!currentName || currentName === 'Orbit Pilot' || currentName.toLowerCase().startsWith('pilot-')) {
+      const name = prompt("Please enter your Pilot Callsign before deploying:");
+      if (!name || !name.trim()) {
+        alert("Callsign is required to initialize combat telemetry.");
+        return null;
+      }
+      const cleaned = cleanName(name);
+      if (input) input.value = cleaned;
+      safeStorageSet('orbitclash-callsign', cleaned);
+      return cleaned;
+    }
+    return getCallsign();
+  }
+
   function colorForPlayer(id, fallbackIndex = 0) {
     const rosterIndex = mp.roster.findIndex((entry) => entry.id === id);
     const index = rosterIndex >= 0 ? rosterIndex : fallbackIndex;
@@ -149,12 +166,17 @@
   }
 
   function createRoom() {
-    if (typeof enterLandscapeMode === 'function') enterLandscapeMode();
     const button = $('createRoomBtn');
+    const activeName = checkAndPromptName();
+    if (!activeName) {
+      if (button) button.disabled = false;
+      return;
+    }
+    if (typeof enterLandscapeMode === 'function') enterLandscapeMode();
     if (button) button.disabled = true;
     setMultiplayerStatus('Opening a secure room…');
     getTransport()
-      .then((transport) => transport.create({ name: getCallsign(), onMessage: handleServerMessage }))
+      .then((transport) => transport.create({ name: activeName, onMessage: handleServerMessage }))
       .catch((error) => setMultiplayerStatus(error.message, 'error'))
       .finally(() => { if (button) button.disabled = false; });
   }
@@ -167,12 +189,17 @@
       setMultiplayerStatus('Enter the complete six-character room code.', 'error');
       return;
     }
-    if (typeof enterLandscapeMode === 'function') enterLandscapeMode();
     const button = $('joinRoomBtn');
+    const activeName = checkAndPromptName();
+    if (!activeName) {
+      if (button) button.disabled = false;
+      return;
+    }
+    if (typeof enterLandscapeMode === 'function') enterLandscapeMode();
     if (button) button.disabled = true;
     setMultiplayerStatus('Locating squad room…');
     getTransport()
-      .then((transport) => transport.join({ code, name: getCallsign(), onMessage: handleServerMessage }))
+      .then((transport) => transport.join({ code, name: activeName, onMessage: handleServerMessage }))
       .catch((error) => setMultiplayerStatus(error.message, 'error'))
       .finally(() => { if (button) button.disabled = false; });
   }
@@ -808,6 +835,9 @@
         width: bullet.width, height: bullet.height, explosive: bullet.explosive,
         isSawblade: bullet.isSawblade, isPoison: bullet.isPoison,
       }));
+    const serializedDrops = drops.map(d => ({
+      x: d.x, y: d.y, vy: d.vy, weaponName: d.weapon?.name || 'PISTOL'
+    }));
     return {
       sequence: ++mp.sequence,
       sentAt: Date.now(),
@@ -823,6 +853,7 @@
       players,
       bots: mp.matchType === 'PVP' ? [] : bots.map(serializeBot),
       projectiles,
+      drops: serializedDrops,
     };
   }
 
@@ -923,6 +954,13 @@
       }
       bots = nextBots;
       mp.networkProjectiles = Array.isArray(snapshot.projectiles) ? snapshot.projectiles.slice(0, LOW_POWER_DEVICE ? 55 : 90) : [];
+      if (Array.isArray(snapshot.drops)) {
+        drops = snapshot.drops.map(d => {
+          const drop = new GunDrop(Number(d.x) || 0, Number(d.y) || 0, WEAPONS[d.weaponName] || WEAPONS.PISTOL);
+          drop.vy = Number(d.vy) || 0;
+          return drop;
+        });
+      }
       if (snapshot.lastKillEvent && Number(snapshot.lastKillEvent.id) > mp.seenKillEventId) {
         mp.seenKillEventId = Number(snapshot.lastKillEvent.id);
         showToast(`${snapshot.lastKillEvent.attackerName} knocked out ${snapshot.lastKillEvent.targetName}.`, 2100);
@@ -1073,8 +1111,10 @@
     if (mp.isHost) {
       if (mp.matchType !== 'PVP') processRemoteHazards();
     } else {
-      drops = [];
       powerUps = [];
+      if (mp.matchType !== 'PVP') {
+        drops = [];
+      }
     }
   }
 
@@ -1403,6 +1443,11 @@
     }
   });
   $('returnMenuBtn')?.addEventListener('click', () => returnToMenu(true));
+  $('hudMenuBtn')?.addEventListener('click', () => {
+    if (confirm("Are you sure you want to quit and return to the main menu?")) {
+      returnToMenu(true);
+    }
+  });
   $('pauseBtn')?.addEventListener('click', (event) => {
     if (!mp.active) return;
     event.preventDefault();
@@ -1413,7 +1458,7 @@
   }, true);
 
   const storedCallsign = safeStorageGet('orbitclash-callsign');
-  if ($('playerNameInput')) $('playerNameInput').value = cleanName(storedCallsign || 'Orbit Pilot');
+  if ($('playerNameInput')) $('playerNameInput').value = storedCallsign ? cleanName(storedCallsign) : '';
   setMode('solo');
   syncLobbyMatchFields();
   installReplayButton();
@@ -1423,8 +1468,10 @@
     onFrame,
     onSimulationTick,
     handleEndCondition,
+    checkAndPromptName,
     shouldSpawnWave() { return !mp.active || mp.matchType !== 'PVP'; },
-    allowsWorldDrops() { return !mp.active || mp.matchType !== 'PVP'; },
+    allowsWorldDrops() { return !mp.active || mp.isHost; },
+    isPvpMatch() { return mp.active && mp.matchType === 'PVP'; },
     get state() { return { active: mp.active, isHost: mp.isHost, roomCode: mp.roomCode, players: mp.roster.length, matchType: mp.matchType, killTarget: mp.killTarget }; },
   };
 })();
