@@ -1407,12 +1407,25 @@
     return originalPlayerUpdate.call(this, timestamp);
   };
 
+  function bindInteractive(el, callback) {
+    if (!el) return;
+    let triggered = false;
+    const handler = (e) => {
+      if (triggered) return;
+      triggered = true;
+      setTimeout(() => { triggered = false; }, 300);
+      callback(e);
+    };
+    el.addEventListener('touchstart', handler, {passive: true});
+    el.addEventListener('click', handler);
+  }
+
   function installReplayButton() {
     const oldButton = $('restartBtnForest');
     if (!oldButton) return;
     const button = oldButton.cloneNode(true);
     oldButton.replaceWith(button);
-    button.addEventListener('click', () => {
+    bindInteractive(button, () => {
       if (mp.active) {
         if (!mp.isHost) return;
         send({ type: 'restart_game', config: { map: mp.currentMap, difficulty, matchType: mp.matchType, killTarget: mp.killTarget } });
@@ -1422,19 +1435,19 @@
     });
   }
 
-  $('modeSoloBtn')?.addEventListener('click', () => setMode('solo'));
-  $('modeMultiBtn')?.addEventListener('click', () => setMode('multi'));
-  $('createRoomBtn')?.addEventListener('click', createRoom);
-  $('joinRoomBtn')?.addEventListener('click', joinRoom);
+  bindInteractive($('modeSoloBtn'), () => setMode('solo'));
+  bindInteractive($('modeMultiBtn'), () => setMode('multi'));
+  bindInteractive($('createRoomBtn'), createRoom);
+  bindInteractive($('joinRoomBtn'), joinRoom);
   $('joinRoomCode')?.addEventListener('input', (event) => {
     event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
   });
   $('joinRoomCode')?.addEventListener('keydown', (event) => { if (event.key === 'Enter') joinRoom(); });
   $('playerNameInput')?.addEventListener('change', getCallsign);
   $('lobbyMatchType')?.addEventListener('change', syncLobbyMatchFields);
-  $('lobbyStartBtn')?.addEventListener('click', startRoomMatch);
-  $('leaveRoomBtn')?.addEventListener('click', () => { resetMultiplayerState(true); returnToMenu(false); });
-  $('copyRoomCodeBtn')?.addEventListener('click', async () => {
+  bindInteractive($('lobbyStartBtn'), startRoomMatch);
+  bindInteractive($('leaveRoomBtn'), () => { resetMultiplayerState(true); returnToMenu(false); });
+  bindInteractive($('copyRoomCodeBtn'), async () => {
     try {
       await navigator.clipboard.writeText(mp.roomCode);
       showToast(`Room ${mp.roomCode} copied.`);
@@ -1442,20 +1455,19 @@
       showToast(`Invite code: ${mp.roomCode}`, 4000);
     }
   });
-  $('returnMenuBtn')?.addEventListener('click', () => returnToMenu(true));
-  $('hudMenuBtn')?.addEventListener('click', () => {
+  bindInteractive($('returnMenuBtn'), () => returnToMenu(true));
+  bindInteractive($('hudMenuBtn'), () => {
     if (confirm("Are you sure you want to quit and return to the main menu?")) {
       returnToMenu(true);
     }
   });
-  $('pauseBtn')?.addEventListener('click', (event) => {
+  bindInteractive($('pauseBtn'), (event) => {
     if (!mp.active) return;
     event.preventDefault();
-    event.stopImmediatePropagation();
     isGamePaused = false;
     $('pauseOverlay')?.classList.add('hidden');
     showToast('Online matches continue in real time.');
-  }, true);
+  });
 
   const storedCallsign = safeStorageGet('orbitclash-callsign');
   if ($('playerNameInput')) $('playerNameInput').value = storedCallsign ? cleanName(storedCallsign) : '';

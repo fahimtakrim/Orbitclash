@@ -677,7 +677,24 @@ function handleTouchEnd(e) {
 }
 canvas.addEventListener('touchend', handleTouchEnd, {passive: false}); canvas.addEventListener('touchcancel', handleTouchEnd, {passive: false});
 
-document.getElementById('pauseBtn')?.addEventListener('click', () => {
+function bindInteractive(elementId, callback) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    let triggered = false;
+    const handler = (e) => {
+        if (triggered) return;
+        triggered = true;
+        setTimeout(() => { triggered = false; }, 300);
+        callback(e);
+    };
+    el.addEventListener('touchstart', handler, {passive: true});
+    el.addEventListener('click', handler);
+}
+
+bindInteractive('pauseBtn', (e) => {
+    if (window.OrbitMultiplayer && window.OrbitMultiplayer.state.active) {
+        return;
+    }
     if(gameState === 'PLAYING') {
         isGamePaused = !isGamePaused;
         document.getElementById('pauseBtn').innerText = isGamePaused ? "RESUME" : "PAUSE";
@@ -1615,8 +1632,10 @@ function drawRockPlatform(ctx, x, y, w, h, topColor = '#2e7d32', baseColor = '#8
 
 function createBuilding(bx, by, bw, bh) {
     let windows = [];
-    for(let wy=by+20; wy<by+bh; wy+=30) {
-        for(let wx=bx+10; wx<bx+bw-10; wx+=20) { if(Math.random()>0.7) windows.push({x: wx, y: wy}); }
+    if (!DEVICE_PROFILE.lite) {
+        for(let wy=by+20; wy<by+bh; wy+=30) {
+            for(let wx=bx+10; wx<bx+bw-10; wx+=20) { if(Math.random()>0.7) windows.push({x: wx, y: wy}); }
+        }
     }
     return {x: bx, y: by, w: bw, h: bh, baseColor: Math.random()>0.95?'#facc15':'#1e293b', windows: windows};
 }
@@ -1692,8 +1711,8 @@ function createMap(mapName) {
         let tier2 = [{x:500,y:world.height-450,w:200},{x:1100,y:world.height-500,w:200},{x:1700,y:world.height-550,w:200},{x:2300,y:world.height-500,w:200},{x:3100,y:world.height-450,w:200}];
         tier1.concat(tier2).forEach(p => mapPlatforms.push({x: p.x, y: p.y, width: p.w, height: 25, color: '#475569', border: '#94a3b8', neon: false}));
     } else if (mapName === 'Cyber City') {
-        let cyberBg1 = Array.from({length: 20}, ()=> createBuilding(Math.random()*world.width*1.5, world.height-(400+Math.random()*400), 80+Math.random()*150, 1000));
-        let cyberBg2 = Array.from({length: 30}, ()=> createBuilding(Math.random()*world.width*1.2, world.height-(300+Math.random()*300), 60+Math.random()*100, 800));
+        let cyberBg1 = Array.from({length: DEVICE_PROFILE.lite ? 6 : 20}, ()=> createBuilding(Math.random()*world.width*1.5, world.height-(400+Math.random()*400), 80+Math.random()*150, 1000));
+        let cyberBg2 = Array.from({length: DEVICE_PROFILE.lite ? 8 : 30}, ()=> createBuilding(Math.random()*world.width*1.2, world.height-(300+Math.random()*300), 60+Math.random()*100, 800));
 
         bgLayers = [
             { color: '#020617', type: 'sky' },
@@ -1854,8 +1873,8 @@ function gameLoop(timestamp) {
     let frameTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
 
-    if (frameTime > 0.25) {
-        frameTime = 0.25;
+    if (frameTime > 0.1) {
+        frameTime = 0.1;
     }
 
     accumulator += frameTime;
@@ -2277,7 +2296,7 @@ function buildCustomizeMenu() {
     }
 }
 
-document.getElementById('customizeSave').addEventListener('click', () => {
+bindInteractive('customizeSave', () => {
     customBotProfiles = [];
     for (let i = 0; i < 5; i++) {
         const nameInput = document.getElementById(`customName${i}`);
@@ -2293,19 +2312,19 @@ document.getElementById('customizeSave').addEventListener('click', () => {
     document.getElementById('startMenu').classList.remove('hidden'); document.getElementById('customizeMenu').classList.add('hidden');
 });
 
-document.getElementById('customizeBack').addEventListener('click', () => {
+bindInteractive('customizeBack', () => {
     document.getElementById('startMenu').classList.remove('hidden'); document.getElementById('customizeMenu').classList.add('hidden');
 });
 
-document.getElementById('btnCustomize').addEventListener('click', () => {
+bindInteractive('btnCustomize', () => {
     buildCustomizeMenu(); document.getElementById('startMenu').classList.add('hidden'); document.getElementById('customizeMenu').classList.remove('hidden');
 });
 
-document.getElementById('btnForest')?.addEventListener('click', () => initGame('Forest'));
-document.getElementById('btnGarage')?.addEventListener('click', () => initGame('Garage'));
-document.getElementById('btnCyber')?.addEventListener('click', () => initGame('Cyber City'));
-document.getElementById('restartBtnForest')?.addEventListener('click', () => initGame('Forest'));
-document.getElementById('restartBtnGarage')?.addEventListener('click', () => initGame('Garage'));
+bindInteractive('btnForest', () => initGame('Forest'));
+bindInteractive('btnGarage', () => initGame('Garage'));
+bindInteractive('btnCyber', () => initGame('Cyber City'));
+bindInteractive('restartBtnForest', () => initGame('Forest'));
+bindInteractive('restartBtnGarage', () => initGame('Garage'));
 
 const diffBtns = { easy: document.getElementById('difficultyEasy'), normal: document.getElementById('difficultyNormal'), hard: document.getElementById('difficultyHard') };
 function setDifficulty(level) {
@@ -2315,9 +2334,9 @@ function setDifficulty(level) {
     else if (level === 'NORMAL') diffBtns.normal?.classList.add('active');
     else if (level === 'HARD') diffBtns.hard?.classList.add('active');
 }
-diffBtns.easy?.addEventListener('click', () => setDifficulty('EASY'));
-diffBtns.normal?.addEventListener('click', () => setDifficulty('NORMAL'));
-diffBtns.hard?.addEventListener('click', () => setDifficulty('HARD'));
+bindInteractive('difficultyEasy', () => setDifficulty('EASY'));
+bindInteractive('difficultyNormal', () => setDifficulty('NORMAL'));
+bindInteractive('difficultyHard', () => setDifficulty('HARD'));
 
 ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, canvas.width, canvas.height);
 buildCustomizeMenu();
