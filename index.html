@@ -73,10 +73,17 @@
     <canvas id="gameCanvas"></canvas>
 
     <div id="pauseOverlay" class="pause-overlay hidden pointer-events-auto">
-        <div class="glass-panel" style="padding: 30px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; gap: 15px; min-width: 280px; align-items: center; border: 2px solid #346b14; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-            <h1 class="pause-title" style="margin: 0 0 10px 0; font-size: 3rem; text-shadow: 0 0 15px rgba(255,255,255,0.5);">PAUSED</h1>
-            <button id="resumeBtn" class="hud-action pointer-events-auto" style="width: 100%; max-width: 200px; padding: 12px; font-weight: bold; background: #659b19; border-color: #a4e344;">RESUME GAME</button>
-            <button id="pauseMenuBtn" class="hud-action pointer-events-auto" style="width: 100%; max-width: 200px; padding: 12px; font-weight: bold; background: #ef4444; border-color: #f87171;">QUIT TO MENU</button>
+        <div class="glass-panel" style="padding: 24px 32px; border-radius: 20px; text-align: center; display: flex; flex-direction: column; gap: 16px; min-width: 290px; align-items: stretch; border: 1px solid rgba(103, 232, 249, 0.25) !important;">
+            <div style="font-size: 0.65rem; color: var(--cyan); letter-spacing: 0.2em; font-weight: 900; margin-bottom: -5px;">SYSTEM STATUS</div>
+            <h1 style="margin: 0 0 8px 0; font-size: 2.2rem; font-weight: 950; letter-spacing: 0.15em; color: white; text-shadow: 0 0 15px rgba(34, 211, 238, 0.4); text-align: center;">PAUSED</h1>
+            
+            <button id="resumeBtn" class="primary-action pointer-events-auto" style="border-radius: 12px; padding: 14px; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;">
+                <strong>Resume Mission</strong>
+            </button>
+            
+            <button id="pauseMenuBtn" class="ghost-action pointer-events-auto" style="border-radius: 12px; padding: 12px; font-weight: 800; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; border-color: rgba(244, 63, 94, 0.3); background: rgba(244, 63, 94, 0.05); color: #f43f5e;">
+                Quit to Base
+            </button>
         </div>
     </div>
 
@@ -101,10 +108,7 @@
                         <span class="micro-label">ACTIVE SYSTEM</span>
                         <strong id="weaponDisplay">PISTOL</strong>
                     </div>
-                    <div style="display: flex; gap: 8px;">
-                        <button id="pauseBtn" class="hud-action pointer-events-auto">PAUSE</button>
-                        <button id="hudMenuBtn" class="hud-action pointer-events-auto" style="background: #ef4444; border-color: #f87171;">MENU</button>
-                    </div>
+                    <button id="pauseBtn" class="hud-action pointer-events-auto">PAUSE</button>
                 </div>
                 <div id="inventoryDisplay" class="inventory-strip"></div>
                 <div id="buffIndicators" class="buff-strip"></div>

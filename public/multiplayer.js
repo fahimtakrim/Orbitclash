@@ -1456,11 +1456,7 @@
     }
   });
   bindInteractive($('returnMenuBtn'), () => returnToMenu(true));
-  bindInteractive($('hudMenuBtn'), () => {
-    if (confirm("Are you sure you want to quit and return to the main menu?")) {
-      returnToMenu(true);
-    }
-  });
+
   bindInteractive($('pauseMenuBtn'), () => {
     if (confirm("Are you sure you want to quit and return to the main menu?")) {
       returnToMenu(true);
